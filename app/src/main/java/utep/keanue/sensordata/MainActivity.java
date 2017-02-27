@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * Create private objects to use in application
      */
     private TextView xText, yText, zText, longText, latText;
-    private Button btn_save, btn_read, btn_delete;
+    private Button btn_save, btn_read, btn_delete, btn_toggleGPS;
     private Sensor mySensor;
     private SensorManager SM;
     private TextView txtContent;
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btn_save = (Button) findViewById(R.id.btn_save);
         btn_read = (Button) findViewById(R.id.btn_read);
         btn_delete = (Button) findViewById(R.id.btn_delete);
+        btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
 
         //Google Play Services
         if (checkPlayServices()) {
@@ -108,6 +109,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
         //TODO Create a button for start/stop location services
+
+        btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                togglePeriodLocationUpdates();
+
+            }
+        });//end onClick SaveFile);
+
 
         // Save on File
         btn_save.setOnClickListener(new View.OnClickListener() {
@@ -238,12 +249,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onResume() {
         super.onResume();
-
-        checkPlayServices();
-        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
-
-            startLocationUpdates();
-        }
+        //DEBUG
+//        Log.d("ON RESUME", "Entering on resume");
+//
+//        checkPlayServices();
+//        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
+//            Log.d("ONRESUME CHECK GPS", "Check GPS on Resume");
+//            startLocationUpdates();
+//        }
     }//end OnResume GoogleAPI
 
     /** Google API Client onStop */
@@ -285,11 +298,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private void togglePeriodLocationUpdates() {
         if (!mRequestLocationUpdates) {
-            //STOP LOCATION SERVICES
+            btn_toggleGPS.setText(getString(R.string.Toggle_GPS_Off));
             mRequestLocationUpdates = true;
             startLocationUpdates();
         } else {
-            //START LOCATION SERVICES
+            btn_toggleGPS.setText(getString(R.string.Toggle_GPS_On));
             mRequestLocationUpdates = false;
             stopLocationUpdates();
         }

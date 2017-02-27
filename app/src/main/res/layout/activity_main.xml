@@ -91,4 +91,12 @@
         android:layout_marginEnd="18dp"
         android:id="@+id/btn_delete" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/btn_toggleGPS"
+        android:text="@string/Toggle_GPS_On" />
+
 </RelativeLayout>
