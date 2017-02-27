@@ -1,44 +1,47 @@
 package utep.keanue.sensordata;
 
-        import android.location.Location;
-        import android.net.Uri;
-        import android.support.annotation.NonNull;
-        import android.support.annotation.Nullable;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 //My Imports
 //Sensor Imports
-        import android.hardware.Sensor;
-        import android.hardware.SensorManager;
-        import android.hardware.SensorEvent;
-        import android.hardware.SensorEventListener;
-        import android.util.Log;
-//Text, buttons and tosts
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.util.Log;
+//Text, buttons and toasts
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 //Google Play Services
-        import com.google.android.gms.common.ConnectionResult;
-        import com.google.android.gms.common.api.GoogleApiClient;
-        import com.google.android.gms.location.LocationListener;
-        import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 //File and Date
-        import java.io.File;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
-
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Class that will demonstrate the use of Accelometer (Sensor).
  * implement: SensorEventListener
  */
 public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.
-        ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
+        ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    private static int locationUpdate = 10000;
-    private static int locationFastestUpdate = 5000;
+    private static int locationInterval = 10000;
+    private static int locationFastestInterval = 5000;
     private static int locationDisplacement = 10;
     /**
      * Create private objects to use in application
@@ -53,10 +56,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     // ** Security and Code Design **//
     private String current_ac_data;     //Accelerometer data
     private String current_time;        //Time stamp
+
     //Google API and Location
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private boolean mRequestLocationUpdates = false;
+    private LocationRequest mLocationRequest;
 
     /**
      * onCreate Method.
@@ -97,9 +102,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btn_delete = (Button) findViewById(R.id.btn_delete);
 
         //Google Play Services
-        // if (checkPlayServices()){
+        if (checkPlayServices()) {
+            buildGoogleApiClient();
+            createLocationRequest();
+        }
 
-        // }
+        //TODO Create a button for start/stop location services
 
         // Save on File
         btn_save.setOnClickListener(new View.OnClickListener() {
@@ -221,20 +229,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onStart() {
         super.onStart();
-        if(mGoogleApiClient != null){
+        if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
     }//end OnStart GoogleAPI
 
     /** Google API Client onResume */
     @Override
-    public void onResume(){
-
+    public void onResume() {
         super.onResume();
-        // checkPlayServices();
-        if(mGoogleApiClient.isConnected() && mRequestLocationUpdates){
 
-            //  startLocationUpdates();
+        checkPlayServices();
+        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
+
+            startLocationUpdates();
         }
     }//end OnResume GoogleAPI
 
@@ -242,28 +250,127 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onStop() {
         super.onStop();
-        if(mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
     }//end OnStop GoogleAPI
 
+    /** Google API Client onPause */
+    @Override
+    public void onPause() {
+        super.onStop();
+
+        stopLocationUpdates();
+    }//end OnStop GoogleAPI
+
+    /** display Location */
+    private void displayLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (mLastLocation != null) {
+                double latitude = mLastLocation.getLatitude();
+                double longitude = mLastLocation.getLongitude();
+                latText.setText("lt: " + latitude);
+                longText.setText("lt: " + longitude);
+            } else {
+                latText.setText("Enable location");
+                longText.setText("Enable location");
+            }
+            return;
+        }
+        Log.d("Display Location Method", "No Permission Granted");
+        return;
+    }
+
+    private void togglePeriodLocationUpdates() {
+        if (!mRequestLocationUpdates) {
+            //STOP LOCATION SERVICES
+            mRequestLocationUpdates = true;
+            startLocationUpdates();
+        } else {
+            //START LOCATION SERVICES
+            mRequestLocationUpdates = false;
+            stopLocationUpdates();
+        }
+    }
+
+    /** Build Google API Client */
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
+    /** Create Location Request */
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(locationInterval);
+        mLocationRequest.setFastestInterval(locationFastestInterval);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setSmallestDisplacement(locationDisplacement);
+    }
+
+    /** Check Play Services */
+    private boolean checkPlayServices() {
+        final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if (result != ConnectionResult.SUCCESS) {
+            if (googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /** Start Location Updates */
+    public void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                    mLocationRequest, this);
+            return;
+        }
+
+    }
+
+    /** Stop Location Updates */
+    public void stopLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            return;
+        }
+
+    }
+
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        displayLocation();
 
+        if(mRequestLocationUpdates){
+            startLocationUpdates();
+        }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.i("CNCT FAILED", "Connection Failed: " + connectionResult.getErrorCode());
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        mLastLocation = location;
 
+        Toast.makeText(getApplicationContext(), "Location Changed", Toast.LENGTH_SHORT).show();
+        displayLocation();
     }
 }//end class
