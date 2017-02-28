@@ -1,6 +1,7 @@
 package utep.keanue.sensordata;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -48,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     private TextView xText, yText, zText, longText, latText;
     private Button btn_save, btn_read, btn_delete, btn_toggleGPS;
-    private Sensor mySensor;
-    private SensorManager SM;
-    private TextView txtContent;
+    private Sensor AccelerometerSensor;
+    private SensorManager sensorManager;
+
     //The following can be removed and set as return elements
     //instead of having them as global variables
     // ** Security and Code Design **//
@@ -72,15 +73,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /* Accelerometer Variables */
+        /* Sensor Variables */
         // Create Sensor Manager
-        SM = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         // Create Accelerometer Sensor
-        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        AccelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         // Register Sensor Listener
-        SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, AccelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         /* Text Views */
         //Assign Accelerometer
@@ -92,9 +93,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         longText = (TextView) findViewById(R.id.long_text);
         latText = (TextView) findViewById(R.id.lat_text);
 
-        //Display Saved Data
-        txtContent = (TextView) findViewById(R.id.txtContent);
-
         /* Buttons */
         //Assign Buttons
         btn_save = (Button) findViewById(R.id.btn_save);
@@ -102,13 +100,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btn_delete = (Button) findViewById(R.id.btn_delete);
         btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
 
-        //Google Play Services
-        if (checkPlayServices()) {
-            buildGoogleApiClient();
-            createLocationRequest();
-        }
-
-        //TODO Create a button for start/stop location services
+        //TODO DEBUG
+//        //Google Play Services
+//        if (checkPlayServices()) {
+//            buildGoogleApiClient();
+//            createLocationRequest();
+//        }
 
         btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,12 +128,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });//end onClick SaveFile
 
+
         // Read File
-        btn_read = (Button) findViewById(R.id.btn_read);
         btn_read.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                txtContent.setText(FileHelper.ReadFile(MainActivity.this));
+            public void onClick(View view) {
+                //START A NEW ACTIVITY
+                startActivity(new Intent(MainActivity.this, readFile.class));
             }
         });
 
@@ -156,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });
 
     }//end onCreate
-
 
     /**
      * Update Interval
@@ -180,9 +177,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             public void run() {
                                 //Extract Global Variables
                                 //Time Stamp
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd -> hh:mm:ss.SSS");
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd @ hh:mm:ss.SSS \n");
                                 String timeStamp = simpleDateFormat.format(new Date());
                                 //Concatenated Data
+                                //String colTimeStamp = "<font color='#EE0000'>"+timeStamp+"</font>";
                                 String full_data = (timeStamp + "[" + current_ac_data + "]");
 
                                 if (FileHelper.saveToFile(full_data)) {
@@ -263,9 +261,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
+        //TODO DEBUG
+//        if (mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
     }//end OnStop GoogleAPI
 
     /** Google API Client onPause */
