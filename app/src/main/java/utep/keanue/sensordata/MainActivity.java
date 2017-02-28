@@ -7,6 +7,7 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -41,12 +42,17 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.
         ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    //Permissions
+    final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
+    final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+
+
+    //Location Variables
     private static int locationInterval = 10000;
     private static int locationFastestInterval = 5000;
     private static int locationDisplacement = 10;
-    /**
-     * Create private objects to use in application
-     */
+
+    //Create private objects to use in application
     private TextView xText, yText, zText, longText, latText;
     private Button btn_save, btn_read, btn_delete, btn_toggleGPS;
     private Sensor AccelerometerSensor;
@@ -56,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //instead of having them as global variables
     // ** Security and Code Design **//
     private String current_ac_data;     //Accelerometer data
-    private String current_time;        //Time stamp
 
     //Google API and Location
     private GoogleApiClient mGoogleApiClient;
@@ -99,29 +104,39 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btn_read = (Button) findViewById(R.id.btn_read);
         btn_delete = (Button) findViewById(R.id.btn_delete);
         btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
+        Button btn_setting = (Button) findViewById(R.id.btn_settings);
 
         //TODO DEBUG
-//        //Google Play Services
-//        if (checkPlayServices()) {
-//            buildGoogleApiClient();
-//            createLocationRequest();
-//        }
+        //Google Play Services
+        if (checkPlayServices()) {
+            buildGoogleApiClient();
+            createLocationRequest();
+        }
 
-        btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
+        /* Settings Button */
+        btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
-
             public void onClick(View v) {
-                togglePeriodLocationUpdates();
-
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
         });//end onClick SaveFile);
 
 
-        // Save on File
+        /* Toggle GPS */
+        btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePeriodLocationUpdates();
+            }
+        });//end onClick SaveFile);
+
+
+        /* Save on File */
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             /** Save current data along with timestamp to file */
             public void onClick(View v) {
+
 
                 //Run updateInterval
                 updateInterval(1, 5);
@@ -225,60 +240,69 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         current_ac_data = (x + " " + y + " " + z);
     }
 
-    /**
-     * Method from interface (NOT USED)
-     */
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        //Not Used
-    }
-
-
     /** Google API Client onStart */
     @Override
     public void onStart() {
-        super.onStart();
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
+        super.onStart();
     }//end OnStart GoogleAPI
 
     /** Google API Client onResume */
     @Override
     public void onResume() {
+        checkPlayServices();
+        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
+            Log.d("ONRESUME CHECK GPS", "Check GPS on Resume");
+            startLocationUpdates();
+        }
         super.onResume();
-        //DEBUG
-//        Log.d("ON RESUME", "Entering on resume");
-//
-//        checkPlayServices();
-//        if (mGoogleApiClient.isConnected() && mRequestLocationUpdates) {
-//            Log.d("ONRESUME CHECK GPS", "Check GPS on Resume");
-//            startLocationUpdates();
-//        }
     }//end OnResume GoogleAPI
 
     /** Google API Client onStop */
     @Override
     public void onStop() {
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
         super.onStop();
-        //TODO DEBUG
-//        if (mGoogleApiClient.isConnected()) {
-//            mGoogleApiClient.disconnect();
-//        }
     }//end OnStop GoogleAPI
 
     /** Google API Client onPause */
     @Override
     public void onPause() {
-        super.onStop();
-
         stopLocationUpdates();
+        super.onStop();
     }//end OnStop GoogleAPI
 
-    /** display Location */
+
+    /** Display Location */
     private void displayLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+        //CHECK IF PERMISSION IS OK!!!!
+
+        //PERMISSION NOT OK!
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            Log.d("DisplayLoc()", "NO PERM -> ask for permission");
+
+            //ASK FOR PERMISSION
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            Log.d("Asking ->", Manifest.permission.ACCESS_FINE_LOCATION);
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+        }
+
+        // PERMISSION IS OK!
+        else {
+            Log.d("DisplayLoc()", "OK PERM");
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
                 double latitude = mLastLocation.getLatitude();
@@ -288,13 +312,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             } else {
                 latText.setText("Enable location");
                 longText.setText("Enable location");
+                return;
             }
-            return;
+
         }
-        Log.d("Display Location Method", "No Permission Granted");
-        return;
     }
 
+    /** Toggle Location Updates */
     private void togglePeriodLocationUpdates() {
         if (!mRequestLocationUpdates) {
             btn_toggleGPS.setText(getString(R.string.Toggle_GPS_Off));
@@ -327,10 +351,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /** Check Play Services */
     private boolean checkPlayServices() {
-        final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
         GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
         int result = googleAPI.isGooglePlayServicesAvailable(this);
         if (result != ConnectionResult.SUCCESS) {
+            Log.d("Check Play Services()", "Success");
             if (googleAPI.isUserResolvableError(result)) {
                 googleAPI.getErrorDialog(this, result, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             }
@@ -341,21 +365,61 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /** Start Location Updates */
     public void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
-                    mLocationRequest, this);
-            return;
+        //CHECK IF PERMISSION IS OK!!!!
+
+        //PERMISSION NOT OK!
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            Log.d("startLoc()", "NO PERM -> ask for permission");
+
+            //ASK FOR PERMISSION
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            Log.d("Asking ->", Manifest.permission.ACCESS_FINE_LOCATION);
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
         }
 
+        // PERMISSION IS OK!
+        else {
+            Log.d("startLoc()", "OK PERM");
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+                    mLocationRequest, this);
+        }
     }
 
     /** Stop Location Updates */
     public void stopLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-            return;
+        //CHECK IF PERMISSION IS OK!!!!
+
+        //PERMISSION NOT OK!
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            Log.d("stopLoc()", "NO PERM -> ask for permission");
+
+            //ASK FOR PERMISSION
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+            Log.d("Asking ->", Manifest.permission.ACCESS_FINE_LOCATION);
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
         }
 
+        // PERMISSION IS OK!
+        else {
+            Log.d("stopLoc()", "OK PERM");
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
     }
 
     @Override
@@ -385,4 +449,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Toast.makeText(getApplicationContext(), "Location Changed", Toast.LENGTH_SHORT).show();
         displayLocation();
     }
+
+    /* Implemented methods not used */
+    /**
+     * Method from interface (NOT USED)
+     */
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        //Not Used
+    }
+
+
 }//end class

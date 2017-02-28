@@ -54,49 +54,45 @@
         android:layout_marginTop="32dp"
         android:id="@+id/lat_text" />
 
-    <TextView
+    <Button
+        android:text="Read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/txtContent"
-        android:scrollIndicators="bottom|right"
-        android:editable="false"
+        android:id="@+id/btn_read"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
 
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lat_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
-        android:id="@+id/btn_save" />
-
-    <Button
-        android:text="Read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btn_save"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/btn_save"
-        android:layout_marginBottom="32dp"
-        android:id="@+id/btn_read" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_save"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="18dp"
-        android:id="@+id/btn_delete" />
+        android:id="@+id/btn_delete"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/btn_toggleGPS"
-        android:text="@string/Toggle_GPS_On" />
+        android:text="@string/Toggle_GPS_On"
+        android:layout_below="@+id/lat_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp" />
+
+    <Button
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/btn_settings"
+        android:layout_toEndOf="@+id/btn_toggleGPS" />
 
 </RelativeLayout>
