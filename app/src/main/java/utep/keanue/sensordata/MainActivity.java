@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static int locationDisplacement = 10;
 
     //Create private objects to use in application //
-    private TextView xText, yText, zText, longText, latText;
+    private TextView xText, yText, zText, longText, latText, altText;
     private Button btn_save, btn_read, btn_delete, btn_toggleGPS;
     private Sensor AccelerometerSensor;
     private SensorManager sensorManager;
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //Assign GPS Location
         longText = (TextView) findViewById(R.id.long_text);
         latText = (TextView) findViewById(R.id.lat_text);
+        altText = (TextView) findViewById(R.id.alt_text);
 
         /* Buttons */
         //Assign Buttons
@@ -430,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     /** Display Location */
     private void displayLocation() {
 
-        //PERMISSION NOT OK!
+        //If permission not ok
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -457,20 +458,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 //Get Last Location
                 double latitude = mLastLocation.getLatitude();
                 double longitude = mLastLocation.getLongitude();
+                double altitude = mLastLocation.getAltitude();
 
                 //Display in Screen
                 latText.setText("latitude: " + latitude);
                 longText.setText("Longitude: " + longitude);
+                altText.setText("Altitude: "+altitude);
 
                 String sLat = extractData(latText.getText().toString());
                 String sLong = extractData(longText.getText().toString());
+                String sAlt = extractData(altText.getText().toString());
 
                 //Save in global
-                current_loc_data =(","+sLat+","+sLong);
+                current_loc_data =(","+sLat+","+sLong+","+sAlt);
 
             } else {
                 latText.setText("Enable location");
                 longText.setText("Enable location");
+                altText.setText("Enable location");
                 return;
             }
         }
