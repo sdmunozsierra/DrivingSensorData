@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btn_read = (Button) findViewById(R.id.btn_read);
         btn_delete = (Button) findViewById(R.id.btn_delete);
         btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
-        Button btn_setting = (Button) findViewById(R.id.btn_settings);
+
 
         /* Spinner */
         Spinner spinner = (Spinner) findViewById(R.id.spinner_opt);
@@ -124,21 +124,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //Spinner Action
         spinner.setOnItemSelectedListener(this);
 
-        //TODO DEBUG
         //Google Play Services
         if (checkPlayServices()) {
             buildGoogleApiClient();
             createLocationRequest();
         }
-
-        /* Settings Button */
-        btn_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-            }
-        });//end onClick SaveFile);
-
 
         /* Toggle GPS */
         btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
@@ -149,19 +139,34 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         });//end onClick SaveFile);
 
 
+
+
         /* Save on File */
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             /** Save current data along with timestamp to file */
             public void onClick(View v) {
+                Log.d("Clicked!", "Going into button");
                 if(setMeasurementInterval == 0){
                     Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
-                    return;
+
                 }
 
-                //Run updateInterval
-                updateInterval(setMeasurementInterval, 1);
-                btn_save.setText("Stop");
+                //Button START
+                else if(btn_save.getText().equals("START")){
+                    Log.d("Clicked!", "StartMeasurements()");
+                    //Run updateInterval
+                    RECORD = true;
+                    startMeasurements(setMeasurementInterval);
+                    btn_save.setText("STOP");
+                    //return;
+                }
+                else{
+                    Log.d("Clicked!", "StopMeasurements()");
+                    RECORD = false;
+                    btn_save.setText("START");
+                }
+
             }
         });//end onClick SaveFile
 
@@ -193,14 +198,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }//end onCreate
 
     /* File Management Method */
-    /** Save file Interval*/
-    public void updateInterval(int interval, int instances) {
+    /** Start Measurements
+     * @param interval How many times per seconds the measurements are going to be made*/
+    public void startMeasurements(int interval) {
+        //How many times per second the read is going to be made
         final int millis =  1000/interval;
-        final int ins = instances;
 
-        RECORD = true;
-
-
+//        RECORD = true;
 
         //Create a new thread
         Thread t = new Thread() {
@@ -216,22 +220,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             public void run() {
                                 //Extract Global Variables
                                 //Time Stamp
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ## hh:mm:ss:SSS \n");
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ## hh:mm:ss:SSS");
                                 String timeStamp = simpleDateFormat.format(new Date());
                                 //Concatenated Data
                                 //String colTimeStamp = "<font color='#EE0000'>"+timeStamp+"</font>";
-                                String full_data = (timeStamp + current_ac_data +" "+current_loc_data);
+                                String full_data = (timeStamp +" ## RPS: " + setMeasurementInterval+"\n"
+                                        + current_ac_data +" "+current_loc_data);
 
-                                // Click to stop
-                                btn_save.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    /** Save current data along with timestamp to file */
-                                    public void onClick(View v) {
-                                        RECORD = false;
-                                        btn_save.setText("START");
-                                        return;
-                                    }
-                                });//end onClick SaveFile
 
                                 //Error Saving file (Maybe add exeption or something
                                 if (!FileHelper.saveToFile(full_data)) {
@@ -239,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                     Toast.makeText(MainActivity.this, "Error save file!!!", Toast.LENGTH_SHORT).show();
                                     //return;
                                 }
+
+
                             }
                         });
                         measurements_made++;
@@ -523,9 +520,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
-       Log.d("Spinner", parent.getItemAtPosition(position).toString() );
-        setMeasurementInterval = Integer.parseInt(parent.getItemAtPosition(position).toString());
-
+        if(position == 0){
+            setMeasurementInterval = 0;
+        }else {
+            Log.d("Spinner", parent.getItemAtPosition(position).toString());
+            setMeasurementInterval = Integer.parseInt(parent.getItemAtPosition(position).toString());
+        }
     }
 
     @Override

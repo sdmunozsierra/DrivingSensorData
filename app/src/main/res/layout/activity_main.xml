@@ -79,14 +79,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="22dp" />
 
-    <Button
-        android:text="Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:id="@+id/btn_settings"
-        android:layout_toEndOf="@+id/btn_toggleGPS" />
-
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
