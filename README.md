@@ -6,6 +6,22 @@
 * Write External Storage (File Management)
 * Access Fine Location (GPS Location)
 
+## Features
+
+### Working Features:
+
+* Use GPS location services
+* Use Accelerometer
+* Interval readings (Times per second)
+* Read readings
+* Delete readings
+
+### Missing Features:
+
+* Add altitude
+* Add send through email
+
+
 ## Location
 
 Location is developed using __Google Play Services__. This is because the Android.Location services are not longer maintained and the documentatino recommend to switch to GP Services.
