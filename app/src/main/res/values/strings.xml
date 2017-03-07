@@ -6,6 +6,20 @@
     <string name="Toggle_GPS_Off">Deactivate GPS</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- String for Spinders -->
+        <string-array name="array_seconds">
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+            <!--<int>4</int>-->
+            <!--<int>5</int>-->
+            <!--<int>6</int>-->
+            <!--<int>7</int>-->
+            <!--<int>8</int>-->
+            <!--<int>9</int>-->
+            <!--<int>10</int>-->
+        </string-array>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

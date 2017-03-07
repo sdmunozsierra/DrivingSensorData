@@ -20,7 +20,10 @@ import android.hardware.SensorEventListener;
 import android.util.Log;
 //Text, buttons and toasts
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 //Google Play Services
@@ -40,12 +43,18 @@ import java.util.Date;
  * implement: SensorEventListener
  */
 public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.
-        ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
+        AdapterView.OnItemSelectedListener {
 
     //Permissions //
     final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
     final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
+    //Record //
+    static boolean RECORD = false;
+
+    //Settings //
+    private static int setMeasurementInterval = 0;
 
     //Location Variables //
     private static int locationInterval = 10000;
@@ -105,6 +114,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
         Button btn_setting = (Button) findViewById(R.id.btn_settings);
 
+        /* Spinner */
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_opt);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.array_seconds, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        //Spinner Action
+        spinner.setOnItemSelectedListener(this);
+
         //TODO DEBUG
         //Google Play Services
         if (checkPlayServices()) {
@@ -135,10 +154,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             /** Save current data along with timestamp to file */
             public void onClick(View v) {
-
+                if(setMeasurementInterval == 0){
+                    Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 //Run updateInterval
-                updateInterval(1, 5);
+                updateInterval(setMeasurementInterval, 1);
+                btn_save.setText("Stop");
             }
         });//end onClick SaveFile
 
@@ -171,43 +194,60 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /* File Management Method */
     /** Save file Interval*/
-    public void updateInterval(int seconds, int instances) {
-        final int millis = seconds * 1000;
+    public void updateInterval(int interval, int instances) {
+        final int millis =  1000/interval;
         final int ins = instances;
+
+        RECORD = true;
+
+
 
         //Create a new thread
         Thread t = new Thread() {
 
             @Override
             public void run() {
-
+                int measurements_made = 0;
                 try {
-                    int i = 0;
-                    while (i < ins) {
+                    while (RECORD == true) {
                         Thread.sleep(millis);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 //Extract Global Variables
                                 //Time Stamp
-                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd @ hh:mm:ss.SSS \n");
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ## hh:mm:ss:SSS \n");
                                 String timeStamp = simpleDateFormat.format(new Date());
                                 //Concatenated Data
                                 //String colTimeStamp = "<font color='#EE0000'>"+timeStamp+"</font>";
                                 String full_data = (timeStamp + current_ac_data +" "+current_loc_data);
 
-                                if (FileHelper.saveToFile(full_data)) {
-                                    Toast.makeText(MainActivity.this, "Saved to file", Toast.LENGTH_SHORT).show();
-                                } else {
+                                // Click to stop
+                                btn_save.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    /** Save current data along with timestamp to file */
+                                    public void onClick(View v) {
+                                        RECORD = false;
+                                        btn_save.setText("START");
+                                        return;
+                                    }
+                                });//end onClick SaveFile
+
+                                //Error Saving file (Maybe add exeption or something
+                                if (!FileHelper.saveToFile(full_data)) {
+
                                     Toast.makeText(MainActivity.this, "Error save file!!!", Toast.LENGTH_SHORT).show();
+                                    //return;
                                 }
                             }
                         });
-                        //Update i
-                        i++;
-                    }
-                } catch (InterruptedException e) {
-                }
+                        measurements_made++;
+                    }//end while
+                } catch (InterruptedException e) {}//end catch
+                //Display Message
+                String totalMeasurements = "Total Reads: "+measurements_made;
+                //Toast.makeText(MainActivity.this, totalMeasurements, Toast.LENGTH_SHORT).show();
+                Log.d("Total Measurements", totalMeasurements);
             }
         };
 
@@ -232,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String z = extractData(zText.getText().toString());
 
         //Save full accelerometer data
-        current_ac_data = ("X:"+x+" Y:"+y+" Z:"+z);
+        current_ac_data = (x+","+y+","+z);
     }
 
 
@@ -309,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            Log.d("startLoc()", "NO PERM -> ask for permission");
+            //Log.d("startLoc()", "NO PERM -> ask for permission");
 
             //ASK FOR PERMISSION
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -324,7 +364,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // PERMISSION IS OK!
         else {
-            Log.d("startLoc()", "OK PERM");
+            //Log.d("startLoc()", "OK PERM");
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
                     mLocationRequest, this);
         }
@@ -429,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 String sLong = extractData(longText.getText().toString());
 
                 //Save in global
-                current_loc_data =("lat:"+sLat+" long:"+sLong);
+                current_loc_data =(","+sLat+","+sLong);
 
             } else {
                 latText.setText("Enable location");
@@ -478,4 +518,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    /** Spinner Methods */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+       Log.d("Spinner", parent.getItemAtPosition(position).toString() );
+        setMeasurementInterval = Integer.parseInt(parent.getItemAtPosition(position).toString());
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
+
+    }
 }//end class
