@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +18,17 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.text.Editable;
+import android.text.method.TextKeyListener;
 import android.util.Log;
 //Text, buttons and toasts
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     //Settings //
     private static int setMeasurementInterval = 0;
+    private EditText myEditText;
 
     //Location Variables //
     private static int locationInterval = 10000;
@@ -89,10 +96,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         /* Sensor Variables */
         // Create Sensor Manager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
         // Create Accelerometer Sensor
         AccelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
         // Register Sensor Listener
         sensorManager.registerListener(this, AccelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -110,20 +115,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         /* Buttons */
         //Assign Buttons
         btn_save = (Button) findViewById(R.id.btn_save);
+        btn_save.setText("START");
         btn_read = (Button) findViewById(R.id.btn_read);
         btn_delete = (Button) findViewById(R.id.btn_delete);
         btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
 
-
-        /* Spinner */
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_opt);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.array_seconds, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        //Spinner Action
-        spinner.setOnItemSelectedListener(this);
+        /* Edit Text */
+        myEditText = (EditText) findViewById(R.id.number_opt);
+        myEditText.setText(""); //Set to empty
+        myEditText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    if(!checkIntervalInput(myEditText.getText()) ){
+                        Toast.makeText(MainActivity.this, "Interval between 1 - 50", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    //Update measurementInterval
+                    setMeasurementInterval = Integer.parseInt(myEditText.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
 
         //Google Play Services
         if (checkPlayServices()) {
@@ -139,23 +155,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });//end onClick SaveFile);
 
-
-
-
         /* Save on File */
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             /** Save current data along with timestamp to file */
             public void onClick(View v) {
-                Log.d("Clicked!", "Going into button");
+                Log.d("Btn_save: Clicked!", "Going into button");
                 if(setMeasurementInterval == 0){
                     Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
-
+                    return;
                 }
-
                 //Button START
                 else if(btn_save.getText().equals("START")){
-                    Log.d("Clicked!", "StartMeasurements()");
+                    Log.d("Btn_save: Clicked!", "StartMeasurements()");
                     //Run updateInterval
                     RECORD = true;
                     startMeasurements(setMeasurementInterval);
@@ -163,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //return;
                 }
                 else{
-                    Log.d("Clicked!", "StopMeasurements()");
+                    Log.d("Btn_save: Clicked!", "StopMeasurements()");
                     RECORD = false;
                     btn_save.setText("START");
                 }
@@ -220,23 +232,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                             @Override
                             public void run() {
                                 //Extract Global Variables
-                                //Time Stamp
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd ## hh:mm:ss:SSS");
                                 String timeStamp = simpleDateFormat.format(new Date());
+                                String interval = ("Interval: "+setMeasurementInterval);
                                 //Concatenated Data
                                 //String colTimeStamp = "<font color='#EE0000'>"+timeStamp+"</font>";
-                                String full_data = (timeStamp +" ## RPS: " + setMeasurementInterval+"\n"
-                                        + current_ac_data +" "+current_loc_data);
+                                String full_data = (timeStamp +"\n" + current_ac_data +" "+current_loc_data);
 
-
-                                //Error Saving file (Maybe add exeption or something
+                                //Error Saving file (Maybe add exeption or something)
                                 if (!FileHelper.saveToFile(full_data)) {
 
                                     Toast.makeText(MainActivity.this, "Error save file!!!", Toast.LENGTH_SHORT).show();
                                     //return;
                                 }
-
-
                             }
                         });
                         measurements_made++;
@@ -246,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 String totalMeasurements = "Total Reads: "+measurements_made;
                 //Toast.makeText(MainActivity.this, totalMeasurements, Toast.LENGTH_SHORT).show();
                 Log.d("Total Measurements", totalMeasurements);
+
             }
         };
 
@@ -488,6 +497,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return parts[1];
     }
 
+    /** Method that checks if the input is on range
+     * @param editText*/
+    private boolean checkIntervalInput(Editable editText){
+        String stringCheck = editText.toString();
+        int intCheck = Integer.parseInt(stringCheck);
+        //LOG
+        //Log.d("CheckInt", "int check: "+intCheck);
+        if(intCheck < 1 || intCheck > 50)
+            return false;
+        return true;
+    }
 
     /* Interface Methods (Not Used) */
     /** On Accuracy Changed (NOT USED)*/
@@ -521,7 +541,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     /** Spinner Methods */
-    /** Spinner On Item Selected */
+    /** Spinner On Item Selected
+     * DEPRECATED*/
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
