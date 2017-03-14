@@ -521,6 +521,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     /** Spinner Methods */
+    /** Spinner On Item Selected */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
