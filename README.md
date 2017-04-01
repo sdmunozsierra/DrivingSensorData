@@ -5,22 +5,26 @@
 * Google Play Services
 * Write External Storage (File Management)
 * Access Fine Location (GPS Location)
+* Bottombar
 
 ## Features
 
 ### Working Features:
 
-* Use GPS location services
-* Use Accelerometer
+* Use GPS location services (X, Y, and Z)
+* Use Accelerometer (Latitude, Longitude, Altitude)
 * Interval readings (Times per second)
 * Read readings
 * Delete readings
 
+### AI Features:
+
+* [Bottom bar](https://github.com/roughike/BottomBar) with API level 11 (Honeycomb).
+
 ### Missing Features:
 
-* Add altitude
 * Add send through email
-
+* Improve AI
 
 ## Location
 

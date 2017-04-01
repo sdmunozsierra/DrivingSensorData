@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_read_file"
     android:layout_width="match_parent"
@@ -19,4 +20,11 @@
         android:textSize="12dp"
         android:scrollbars = "vertical"
         android:id="@+id/txt_SensorData" />
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar_read"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:bb_tabXmlResource="@xml/bottombar_read_tabs" />
 </RelativeLayout>

@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_read"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/btn_save"
         android:layout_alignParentStart="true" />
 
     <Button
@@ -42,14 +42,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/btn_delete"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="46dp" />
 
     <Button
         android:text="Start Recording"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn_save"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/btn_delete"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -62,8 +63,7 @@
         android:selectAllOnFocus="true"
         android:layout_above="@+id/btn_read"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginBottom="78dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -71,7 +71,8 @@
         android:id="@+id/btn_toggleGPS"
         android:text="@string/Toggle_GPS_On"
         android:layout_above="@+id/number_opt"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="102dp" />
 
     <TextView
         android:text="xPos"
@@ -109,5 +110,12 @@
         android:id="@+id/lat_text"
         android:layout_below="@+id/yText"
         android:layout_alignStart="@+id/alt_text" />
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
 </RelativeLayout>

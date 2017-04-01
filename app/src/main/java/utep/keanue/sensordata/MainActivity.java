@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -39,6 +40,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
+import com.roughike.bottombar.TabSelectionInterceptor;
 //File and Date
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -73,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Button btn_save, btn_read, btn_delete, btn_toggleGPS;
     private Sensor AccelerometerSensor;
     private SensorManager sensorManager;
+
+    //Bottom Bar Object
+    private BottomBar bottomBar;
 
     // Data Strings //
     private String current_ac_data;     //Accelerometer data
@@ -177,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 else{
                     Log.d("Btn_save: Clicked!", "StopMeasurements()");
                     RECORD = false;
-                    btn_save.setText("START");
+                    btn_save.setText("START RECORDING");
                 }
 
             }
@@ -208,9 +215,61 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        //Bottom Bar
+        /** Bottom Bar
+         * Thanks to this bar I will remove three buttons (Read, Start & Delete)
+         * This is still in testing phase. */
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.selectTabWithId(R.id.tab_home);
+
+        //Bottom Bar On Select
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                switch (tabId) {
+                    case R.id.tab_readRecords:
+                        //TODO USE CONTAINER TO DISPLAY STUFF
+                        break;
+                    case R.id.tab_startRecording:
+                        //TODO USE CONTAINER TO DISPLAY STUFF
+                        break;
+                    case R.id.tab_home:
+                        //TODO USE CONTAINER TO DISPLAY STUFF
+                        break;
+                    case R.id.tab_stopRecording:
+                        //TODO USE CONTAINER TO DISPLAY STUFF
+                        break;
+                    case R.id.tab_deleteFile:
+                        //TODO USE CONTAINER TO DISPLAY STUFF
+                        break;
+                }
+            }
+        });
+
+        //Intercept Tans
+        bottomBar.setTabSelectionInterceptor(new TabSelectionInterceptor() {
+            @Override
+            public boolean shouldInterceptTabSelection(@IdRes int oldTabId, @IdRes int newTabId) {
+//                if(newTabId == R.id.tab_readRecords && ContextCompat.checkSelfPermission(MainActivity.this,
+//                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+//                    ActivityCompat.requestPermissions(MainActivity.this,
+//                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                            REQUEST_CODE);
+//                    return true;
+//                }
+//                if(oldTabId == R.id.tab_readRecords ){
+//
+//                    return true;
+//                }
+
+                return false;
+            }
+        });
+
+
     }//end onCreate
 
-    /* File Management Method */
+    /* File Management Methods */
     /** Start Measurements
      * @param interval How many times per seconds the measurements are going to be made*/
     public void startMeasurements(int interval) {
@@ -314,11 +373,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }//end OnStop GoogleAPI
 
     /** Google API Client onPause */
-    @Override
-    public void onPause() {
-        stopLocationUpdates();
-        super.onStop();
-    }//end OnStop GoogleAPI
+ //   @Override
+//    public void onPause() {
+//        stopLocationUpdates();
+//        super.onStop();
+//    }//end OnStop GoogleAPI
 
     /** Build Google API Client */
     protected synchronized void buildGoogleApiClient(){
