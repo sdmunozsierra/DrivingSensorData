@@ -228,7 +228,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
                     case R.id.tab_readRecords:
-                        //TODO USE CONTAINER TO DISPLAY STUFF
+                        readFragment f = new readFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame, f).commit();
                         break;
                     case R.id.tab_startRecording:
                         //TODO USE CONTAINER TO DISPLAY STUFF
