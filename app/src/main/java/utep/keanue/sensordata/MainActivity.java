@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
-        //Google Play Services
+        //Google Play Services`
         if (checkPlayServices()) {
             buildGoogleApiClient();
             createLocationRequest();
