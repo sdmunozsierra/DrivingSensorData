@@ -15,7 +15,7 @@ import android.widget.TextView;
  */
 
 
-public class readFragment extends Fragment {
+public class readFragment extends android.support.v4.app.Fragment {
 
     private TextView data;
 
@@ -27,14 +27,10 @@ public class readFragment extends Fragment {
         View v = inflater.inflate(R.layout.read_records, container, false);
 
 
-        TextView sensorData = (TextView) getView().findViewById(R.id.txt_SensorData);
+        TextView sensorData = (TextView) v.findViewById(R.id.txt_SensorData);
         sensorData.setMovementMethod(new ScrollingMovementMethod());
 
         sensorData.setText(FileHelper.ReadFile(getActivity()  ));
-
-
-
-
 
         return v;
     }

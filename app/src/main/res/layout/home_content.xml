@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <!-- Graph if applicable -->
+    <FrameLayout
+        android:id="@+id/frameGraph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></FrameLayout>
+
+    <!-- Main Content -->
+    <RelativeLayout
+        android:id="@+id/frameMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Accelerometer -->
+
+        <TextView
+            android:id="@+id/zText"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="zPos"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/yText"
+            android:layout_marginStart="110dp" />
+
+        <TextView
+            android:id="@+id/yText"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yPos"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/xText"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xPos"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/yText"
+            android:layout_marginEnd="92dp" />
+
+    </RelativeLayout>
+    <!-- End main Content-->
+
+
+</FrameLayout>
