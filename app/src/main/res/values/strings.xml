@@ -13,4 +13,7 @@
     <string name="tab_delete">Delete File</string>
     <string name="tab_back">Go Back</string>
     <string name="tab_home">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

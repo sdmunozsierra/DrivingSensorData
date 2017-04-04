@@ -23,28 +23,5 @@ public class readFile extends MainActivity {
         sensorData.setMovementMethod(new ScrollingMovementMethod());
 
         sensorData.setText(FileHelper.ReadFile(readFile.this));
-
-//        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar_read);
-//        bottomBar.selectTabWithId(R.id.tab_readRecords);
-//        //Bottom Bar On Select
-//        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelected(@IdRes int tabId) {
-//                //Read from file
-//
-//                if (tabId == R.id.tab_home){
-//                    finish();
-//                    return; //just in case
-//                }
-//                if (tabId == R.id.tab_startRecording){
-//                    Toast.makeText(readFile.this, "STGART file", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                if (tabId == R.id.tab_deleteFile){
-//                    Toast.makeText(readFile.this, "DELETE file", Toast.LENGTH_SHORT).show();
-//
-//                }
-//            }
-//        });
     }
 }

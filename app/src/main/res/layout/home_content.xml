@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <!-- Graph if applicable -->
     <FrameLayout
@@ -11,43 +12,91 @@
 
     <!-- Main Content -->
     <RelativeLayout
-        android:id="@+id/frameMain"
+        android:id="@+id/layout_sensor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="245dp"
+        android:layout_weight="0.34"
+        android:orientation="vertical">
 
         <!-- Accelerometer -->
-
+        <!--  Changing Text -->
         <TextView
-            android:id="@+id/zText"
-            android:textSize="30dp"
+            android:id="@+id/textFragX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="zPos"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/yText"
-            android:layout_marginStart="110dp" />
-
-        <TextView
-            android:id="@+id/yText"
-            android:textSize="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="yPos"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:id="@+id/xText"
-            android:textSize="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textFragY"
+            android:layout_alignBottom="@+id/textFragY"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="88dp"
             android:text="xPos"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/yText"
-            android:layout_marginEnd="92dp" />
+            android:textSize="30dp" />
 
+        <TextView
+            android:id="@+id/textFragY"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textFragZ"
+            android:layout_alignBottom="@+id/textFragZ"
+            android:layout_centerHorizontal="true"
+            android:text="yPos"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/textFragZ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="71dp"
+            android:layout_marginTop="66dp"
+            android:text="zPos"
+            android:textSize="30dp" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/long_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:textSize="30dp"
+            android:text="Longitude:"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/alt_text" />
+
+        <TextView
+            android:id="@+id/alt_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="Altitude:"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textFragX" />
+
+        <TextView
+            android:id="@+id/lat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude:"
+            android:layout_above="@+id/long_text"
+            android:layout_alignStart="@+id/long_text"
+            android:textSize="30dp"
+            android:layout_marginBottom="50dp" />
+
+        <!--Testing-->
+        <TextView
+            android:id="@+id/textCurrAC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current AC DATA:"
+            android:layout_alignBaseline="@+id/long_text"
+            android:layout_alignBottom="@+id/long_text"
+            android:layout_alignEnd="@+id/textFragZ" />
     </RelativeLayout>
     <!-- End main Content-->
 
 
-</FrameLayout>
+
+
+
+
+</LinearLayout>

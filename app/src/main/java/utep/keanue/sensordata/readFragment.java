@@ -26,7 +26,6 @@ public class readFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.read_records, container, false);
 
-
         TextView sensorData = (TextView) v.findViewById(R.id.txt_SensorData);
         sensorData.setMovementMethod(new ScrollingMovementMethod());
 

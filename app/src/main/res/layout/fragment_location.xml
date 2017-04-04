@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="utep.keanue.sensordata.locationFragment">
+
+
+    <!-- Main Content -->
+    <RelativeLayout
+        android:id="@+id/layout_sensor"
+        android:layout_width="match_parent"
+        android:layout_height="245dp"
+        android:layout_weight="0.34"
+        android:orientation="vertical">
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/long_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:textSize="30dp"
+            android:text="Longitude:"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/alt_text" />
+
+        <TextView
+            android:id="@+id/alt_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="Altitude:"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/textFragX" />
+
+        <TextView
+            android:id="@+id/lat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude:"
+            android:layout_above="@+id/long_text"
+            android:layout_alignStart="@+id/long_text"
+            android:textSize="30dp"
+            android:layout_marginBottom="50dp" />
+    </RelativeLayout>
+    <!-- End main Content-->
+
+</LinearLayout>
