@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     //Create private objects to use in application //
     private TextView xText, yText, zText, longText, latText, altText;
-    private Button btn_save, btn_read, btn_delete, btn_toggleGPS;
+    private Button btn_save, btn_toggleGPS;
     private Sensor AccelerometerSensor;
     private SensorManager sensorManager;
 
@@ -121,11 +121,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         altText = (TextView) findViewById(R.id.alt_text);
 
         /* Buttons */
-        //Assign Buttons
         btn_save = (Button) findViewById(R.id.btn_save);
-        btn_save.setText("START");
-        btn_read = (Button) findViewById(R.id.btn_read);
-        btn_delete = (Button) findViewById(R.id.btn_delete);
+        btn_save.setText("START RECORDING");
         btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
 
         /* Edit Text */
@@ -191,31 +188,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });//end onClick SaveFile
 
-
-        // Read File
-        btn_read.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //START A NEW ACTIVITY
-                startActivity(new Intent(MainActivity.this, readFile.class));
-            }
-        });
-
-
-        // Delete File
-        btn_delete = (Button) findViewById(R.id.btn_delete);
-        btn_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File fileName = new File(FileHelper.path + FileHelper.fileName);
-                if (FileHelper.deleteFile(fileName)) {
-                    Toast.makeText(MainActivity.this, "Deleted file", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Error delete file!!!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         //Bottom Bar
         /** Bottom Bar
          * Thanks to this bar I will remove three buttons (Read, Start & Delete)
@@ -223,33 +195,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.selectTabWithId(R.id.tab_home);
 
-        //Bottom Bar On Select
-//        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelected(@IdRes int tabId) {
-//                switch (tabId) {
-//                    case R.id.tab_readRecords:
-//                        readFragment rf = new readFragment();
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.frameMainTop, rf).commit();
-//
-//                        break;
-//                    case R.id.tab_startRecording:
-//                        //TODO USE CONTAINER TO DISPLAY STUFF
-//                        break;
-//                    case R.id.tab_home:
-//                        homeFragment hf = new homeFragment();
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.frameMainTop, hf).commit();
-//                        testText.setText(hf.current_ac_data);
-//                        break;
-//                    case R.id.tab_stopRecording:
-//                        //TODO USE CONTAINER TO DISPLAY STUFF
-//                        break;
-//                    case R.id.tab_deleteFile:
-//                        //TODO USE CONTAINER TO DISPLAY STUFF
-//                        break;
-//                }
-//            }
-//        });
 
         findViewById(R.id.tab_readRecords).setOnClickListener(this);
         findViewById(R.id.tab_startRecording).setOnClickListener(this);
@@ -349,9 +294,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorChanged(SensorEvent event) {
 
         //Global Display Variables
-        xText.setText("X Axis: " + event.values[0]);
-        yText.setText("Y Axis: " + event.values[1]);
-        zText.setText("Z Axis: " + event.values[2]);
+        xText.setText("X Axis:\n" + event.values[0]);
+        yText.setText("Y Axis:\n" + event.values[1]);
+        zText.setText("Z Axis:\n" + event.values[2]);
 
         //Local Variables
         String x = extractData(xText.getText().toString());
@@ -360,6 +305,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //Save full accelerometer data
         current_ac_data = (x+","+y+","+z);
+
+        //TODO create a method for fixing x
+        //Include: deal with negative numbers
+        //Crop z values for 'neat' display
+        String fixZ = z.substring(0,5);
+        zText.setText("Z Axis:\n" + fixZ);
+
     }
 
 
@@ -573,7 +525,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     /* Extra Methods */
     /** Extract data from a String */
     private String extractData(String string){
-        String[] parts = string.split(":");
+        String[] parts = string.split("\n");
         return parts[1];
     }
 

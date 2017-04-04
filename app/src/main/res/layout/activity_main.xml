@@ -7,192 +7,77 @@
     tools:context="utep.keanue.sensordata.MainActivity"
     android:weightSum="1">
 
+    <!-- Main Frame -->
     <RelativeLayout
-        android:id="@+id/frameMainTop"
-        android:layout_width="match_parent"
-        android:layout_height="348dp">
-
-        <!--
-        <TextView
-            android:id="@+id/yText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/xText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="31dp"
-            android:text="yPos" />
-
-        <TextView
-            android:id="@+id/zText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/yText"
-            android:layout_below="@+id/yText"
-            android:layout_marginTop="45dp"
-            android:text="zPos" />
-
-        <Button
-            android:id="@+id/btn_read"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Read Records"
-            android:layout_alignBaseline="@+id/btn_save"
-            android:layout_alignBottom="@+id/btn_save"
-            android:layout_alignParentStart="true" />
-
-        <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="46dp"
-            android:text="Delete File"
-            android:layout_above="@+id/bottomBar"
-            android:layout_alignParentEnd="true" />
-
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start Recording"
-            android:layout_alignBaseline="@+id/btn_delete"
-            android:layout_alignBottom="@+id/btn_delete"
-            android:layout_centerHorizontal="true" />
-
-        <EditText
-            android:id="@+id/number_opt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:selectAllOnFocus="true"
-            android:text="Measure (Times per Second)"
-            android:layout_above="@+id/btn_read"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:id="@+id/xText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/long_text"
-            android:layout_alignStart="@+id/zText"
-            android:layout_marginBottom="29dp"
-            android:text="xPos" />
-
-        <TextView
-            android:id="@+id/long_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="93dp"
-            android:layout_marginEnd="27dp"
-            android:text="longitude"
-            android:layout_above="@+id/btn_toggleGPS"
-            android:layout_alignEnd="@+id/btn_read" />
-
-        <TextView
-            android:id="@+id/alt_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/btn_delete"
-            android:layout_below="@+id/zText"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="16dp"
-            android:text="altitude" />
-
-        <TextView
-            android:id="@+id/lat_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/alt_text"
-            android:layout_below="@+id/yText"
-            android:text="latitude" />
-
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/bottombar_tabs" />
-
-        <Button
-            android:id="@+id/btn_toggleGPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Toggle_GPS_On"
-            android:layout_above="@+id/btn_delete"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:id="@+id/testFragmentText"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This will update rapidly..."
-            android:layout_above="@+id/xText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="14dp" />
-            -->
-
-    </RelativeLayout>
-
-    <!--Middle-->
-    <RelativeLayout
-        android:id="@+id/frameMainMiddle"
-        android:layout_width="match_parent"
-        android:layout_height="126dp">
-
-        <TextView
-            android:id="@+id/testFragmentText"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This will update rapidly..."
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="14dp" />
-
-    </RelativeLayout>
-
-    <!-- Bottom -->
-    <RelativeLayout
-        android:id="@+id/frameMainBottom"
+        android:id="@+id/frameMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
+        <!-- Accelerometer -->
+        <!--  Changing Text -->
+        <TextView
+            android:id="@+id/xText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xPos"
+            android:textSize="30dp"
+            android:layout_alignBaseline="@+id/yText"
+            android:layout_alignBottom="@+id/yText"
+            android:layout_alignStart="@+id/alt_text" />
+
         <TextView
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/xText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="31dp"
-            android:text="yPos" />
+            android:text="yPos"
+            android:textSize="30dp"
+            android:layout_alignBaseline="@+id/zText"
+            android:layout_alignBottom="@+id/zText"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/zText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/yText"
-            android:layout_below="@+id/yText"
-            android:layout_marginTop="45dp"
-            android:text="zPos" />
+            android:layout_marginEnd="52dp"
+            android:layout_marginTop="102dp"
+            android:text="zPos"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignEnd="@+id/bottomBar" />
 
-        <Button
-            android:id="@+id/btn_read"
+        <!-- Location -->
+        <TextView
+            android:id="@+id/long_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Read Records"
-            android:layout_alignBaseline="@+id/btn_save"
-            android:layout_alignBottom="@+id/btn_save"
-            android:layout_alignParentStart="true" />
+            android:textSize="30dp"
+            android:text="Longitude:"
+            android:layout_above="@+id/alt_text"
+            android:layout_alignStart="@+id/alt_text" />
 
-        <Button
-            android:id="@+id/btn_delete"
+        <TextView
+            android:id="@+id/alt_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="46dp"
-            android:text="Delete File"
-            android:layout_above="@+id/bottomBar"
-            android:layout_alignParentEnd="true" />
+            android:textSize="30dp"
+            android:text="Altitude:"
+            android:layout_marginEnd="21dp"
+            android:layout_alignTop="@+id/testFragmentText"
+            android:layout_toStartOf="@+id/btn_read"
+            android:layout_marginTop="45dp" />
+
+        <TextView
+            android:id="@+id/lat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude:"
+            android:textSize="30dp"
+            android:layout_below="@+id/xText"
+            android:layout_alignStart="@+id/xText"
+            android:layout_marginTop="108dp" />
+
 
         <Button
             android:id="@+id/btn_save"
@@ -214,49 +99,17 @@
             android:layout_above="@+id/btn_read"
             android:layout_alignParentStart="true" />
 
-        <TextView
-            android:id="@+id/xText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/long_text"
-            android:layout_alignStart="@+id/zText"
-            android:layout_marginBottom="29dp"
-            android:text="xPos" />
 
         <TextView
-            android:id="@+id/long_text"
+            android:id="@+id/testFragmentText"
+            android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="93dp"
-            android:layout_marginEnd="27dp"
-            android:text="longitude"
-            android:layout_above="@+id/btn_toggleGPS"
-            android:layout_alignEnd="@+id/btn_read" />
-
-        <TextView
-            android:id="@+id/alt_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/btn_delete"
-            android:layout_below="@+id/zText"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="16dp"
-            android:text="altitude" />
-
-        <TextView
-            android:id="@+id/lat_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/alt_text"
-            android:layout_below="@+id/yText"
-            android:text="latitude" />
-
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/bottomBar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            app:bb_tabXmlResource="@xml/bottombar_tabs" />
+            android:text="This will update rapidly..."
+            android:layout_below="@+id/lat_text"
+            android:layout_toEndOf="@+id/btn_save"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="91dp" />
 
         <Button
             android:id="@+id/btn_toggleGPS"
@@ -265,6 +118,14 @@
             android:text="@string/Toggle_GPS_On"
             android:layout_above="@+id/btn_delete"
             android:layout_alignParentEnd="true" />
+
+        <!--Bottom Bar-->
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
 
     </RelativeLayout>
