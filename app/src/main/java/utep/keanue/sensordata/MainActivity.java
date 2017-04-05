@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -36,10 +35,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
-import com.roughike.bottombar.TabSelectionInterceptor;
-//File and Date
-import junit.framework.Test;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -57,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 0;
     final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
-    //Record //
+    final static int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
+
+    //Record && Location //
     static boolean RECORD = false;
+    static boolean LOCATION = false;
 
     //Settings //
     private static int setMeasurementInterval = 0;
@@ -70,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static int locationDisplacement = 10;
 
     //Create private objects to use in application //
-    private TextView xText, yText, zText, longText, latText, altText;
-    private Button btn_save, btn_toggleGPS;
+    private TextView xText, yText, zText,longText, latText, altText, instructionsText;
     private Sensor AccelerometerSensor;
     private SensorManager sensorManager;
 
@@ -110,20 +107,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         xText = (TextView) findViewById(R.id.xText);
         yText = (TextView) findViewById(R.id.yText);
         zText = (TextView) findViewById(R.id.zText);
+        instructionsText = (TextView) findViewById(R.id.instructionsText);
 
-        /** Test Fragment Text View */
-        final TextView testText = (TextView) findViewById(R.id.testFragmentText);
-        testText.setText("Unassigned");
+        //Assign Instructions
+        instructionsText.setText("Enter Interval:");
 
         //Assign GPS Location
         longText = (TextView) findViewById(R.id.long_text);
         latText = (TextView) findViewById(R.id.lat_text);
         altText = (TextView) findViewById(R.id.alt_text);
-
-        /* Buttons */
-        btn_save = (Button) findViewById(R.id.btn_save);
-        btn_save.setText("START RECORDING");
-        btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
 
         /* Edit Text */
         myEditText = (EditText) findViewById(R.id.number_opt);
@@ -146,13 +138,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+
         //Google Play Services`
         if (checkPlayServices()) {
             buildGoogleApiClient();
             createLocationRequest();
         }
 
-        /* Toggle GPS */
+        Button btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
+                /* Toggle GPS */
         btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,33 +154,34 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });//end onClick SaveFile);
 
-        /* Save on File */
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            /** Save current data along with timestamp to file */
-            public void onClick(View v) {
-                Log.d("Btn_save: Clicked!", "Going into button");
-                if(setMeasurementInterval == 0){
-                    Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                //Button START
-                else if(btn_save.getText().equals("START RECORDING")){
-                    Log.d("Btn_save: Clicked!", "StartMeasurements()");
-                    //Run updateInterval
-                    RECORD = true;
-                    startMeasurements(setMeasurementInterval);
-                    btn_save.setText("STOP");
-                    //return;
-                }
-                else{
-                    Log.d("Btn_save: Clicked!", "StopMeasurements()");
-                    RECORD = false;
-                    btn_save.setText("START RECORDING");
-                }
+//        /* Save on File */
+//        btn_save.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            /** Save current data along with timestamp to file */
+//            public void onClick(View v) {
+//                Log.d("Btn_save: Clicked!", "Going into button");
+//                if(setMeasurementInterval == 0){
+//                    Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                //Button START
+//                else if(btn_save.getText().equals("START RECORDING")){
+//                    Log.d("Btn_save: Clicked!", "StartMeasurements()");
+//                    //Run updateInterval
+//                    RECORD = true;
+//                    startMeasurements(setMeasurementInterval);
+//                    btn_save.setText("STOP");
+//                    //return;
+//                }
+//                else{
+//                    Log.d("Btn_save: Clicked!", "StopMeasurements()");
+//                    RECORD = false;
+//                    btn_save.setText("START RECORDING");
+//                }
+//
+//            }
+//        });//end onClick SaveFile
 
-            }
-        });//end onClick SaveFile
 
         //Bottom Bar
         /** Bottom Bar
@@ -199,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.tab_readRecords).setOnClickListener(this);
         findViewById(R.id.tab_startRecording).setOnClickListener(this);
         findViewById(R.id.tab_home).setOnClickListener(this);
-        findViewById(R.id.tab_stopRecording).setOnClickListener(this);
+        findViewById(R.id.tab_location).setOnClickListener(this);
         findViewById(R.id.tab_deleteFile).setOnClickListener(this);
 
 
@@ -214,16 +209,54 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 startActivity(new Intent(MainActivity.this, readFile.class));
                 break;
             case R.id.tab_startRecording:
-                // clazz = FiveColorChangingTabsActivity.class;
+                //TODO Create tosts for recording on/off
+                if(setMeasurementInterval == 0) {
+                    Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //Start recording
+                if(!RECORD){
+                    RECORD = true;
+                    startMeasurements(setMeasurementInterval);
+                    //Change title
+                    bottomBar.selectTabWithId(R.id.tab_startRecording);
+                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
+                    //TextView titleView = (TextView) bottomBar.findViewById(R.id.bb_bottom_bar_title);
+                    //TODO use strings.xml
+                    titleView.setText("Stop Recording");
+                    //break;
+                }
+                //Stop recording
+                else {
+                    RECORD = false;
+                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
+                    titleView.setText("Start Recording");
+                    bottomBar.selectTabWithId(R.id.tab_home);
+                    //break;
+                }
                 break;
             case R.id.tab_home:
-                //clazz = ThreeTabsQRActivity.class;
+                Log.d("TAB HOME", "putamadre");
+
                 break;
-            case R.id.tab_stopRecording:
-                //clazz = CustomColorAndFontActivity.class;
-                break;
+            case R.id.tab_location:
+//                if(!LOCATION){
+//                    //togglePeriodLocationUpdates();
+//                    LOCATION = true;
+//                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
+//                    titleView.setText("Disable Location");
+//                    bottomBar.selectTabWithId(R.id.tab_location);
+////                    //displayLocation();
+//                }
+//                else{
+//                    //togglePeriodLocationUpdates();
+//                    LOCATION = false;
+//                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
+//                    titleView.setText("Enable Location");
+//                    bottomBar.selectTabWithId(R.id.tab_home);
+//                }
+//                break;
             case R.id.tab_deleteFile:
-                //Delete File Case
                 File fileName = new File(FileHelper.path + FileHelper.fileName);
                 if (FileHelper.deleteFile(fileName)) {
                     Toast.makeText(MainActivity.this, "Deleted file", Toast.LENGTH_SHORT).show();
@@ -249,9 +282,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             @Override
             public void run() {
+                //Request permission write external file
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
                 int measurements_made = 0;
                 try {
-                    while (RECORD == true) {
+                    while (RECORD) {
                         Thread.sleep(millis);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -288,7 +325,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /* Accelerometer Methods */
     /** Sensor Changed
-     * This will change the TextView to the values of the sensor
+     * This will change the TextView to the values of the sensor and saves the values to global string
+     * @param event The smartphone automatically detects it.
      */
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -299,9 +337,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         zText.setText("Z Axis:\n" + event.values[2]);
 
         //Local Variables
-        String x = extractData(xText.getText().toString());
-        String y = extractData(yText.getText().toString());
-        String z = extractData(zText.getText().toString());
+        String x = extractDataSensor(xText.getText().toString());
+        String y = extractDataSensor(yText.getText().toString());
+        String z = extractDataSensor(zText.getText().toString());
 
         //Save full accelerometer data
         current_ac_data = (x+","+y+","+z);
@@ -315,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
-    /* Google API Methods */
+        /* Google API Methods */
     /** Google API Client onStart */
     @Override
     public void onStart() {
@@ -346,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }//end OnStop GoogleAPI
 
     /** Google API Client onPause */
- //   @Override
+    //   @Override
 //    public void onPause() {
 //        stopLocationUpdates();
 //        super.onStop();
@@ -411,14 +449,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /** Stop Location Updates */
     public void stopLocationUpdates() {
-        //CHECK IF PERMISSION IS OK!!!!
+        //Check for permission
 
-        //PERMISSION NOT OK!
+        //No permission
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            Log.d("stopLoc()", "NO PERM -> ask for permission");
+            Log.d("stopLoc()", "No permission. Will ask for permission...");
 
             //ASK FOR PERMISSION
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -426,9 +463,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
             Log.d("Asking ->", Manifest.permission.ACCESS_FINE_LOCATION);
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
         }
 
         // PERMISSION IS OK!
@@ -450,11 +484,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     /** Toggle Location Updates */
     private void togglePeriodLocationUpdates() {
         if (!mRequestLocationUpdates) {
-            btn_toggleGPS.setText(getString(R.string.Toggle_GPS_Off));
+            //btn_toggleGPS.setText(getString(R.string.Toggle_GPS_Off));
             mRequestLocationUpdates = true;
             startLocationUpdates();
         } else {
-            btn_toggleGPS.setText(getString(R.string.Toggle_GPS_On));
+            //btn_toggleGPS.setText(getString(R.string.Toggle_GPS_On));
             mRequestLocationUpdates = false;
             stopLocationUpdates();
         }
@@ -506,9 +540,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 longText.setText("Longitude: " + longitude);
                 altText.setText("Altitude: "+altitude);
 
-                String sLat = extractData(latText.getText().toString());
-                String sLong = extractData(longText.getText().toString());
-                String sAlt = extractData(altText.getText().toString());
+                String sLat = extractDataLocation(latText.getText().toString());
+                String sLong = extractDataLocation(longText.getText().toString());
+                String sAlt = extractDataLocation(altText.getText().toString());
 
                 //Save in global
                 current_loc_data =(","+sLat+","+sLong+","+sAlt);
@@ -524,13 +558,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /* Extra Methods */
     /** Extract data from a String */
-    private String extractData(String string){
+    private String extractDataSensor(String string){
         String[] parts = string.split("\n");
         return parts[1];
     }
 
+    private String extractDataLocation(String string){
+        String[] parts = string.split(":");
+        return parts[1];
+    }
+
     /** Method that checks if the input is on range
-     * @param editText*/
+     * @param editText User input for interval*/
     private boolean checkIntervalInput(Editable editText){
         String stringCheck = editText.toString();
         int intCheck = Integer.parseInt(stringCheck);

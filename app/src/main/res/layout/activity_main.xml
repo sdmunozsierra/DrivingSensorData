@@ -20,104 +20,97 @@
             android:id="@+id/xText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="xPos"
-            android:textSize="30dp"
             android:layout_alignBaseline="@+id/yText"
             android:layout_alignBottom="@+id/yText"
-            android:layout_alignStart="@+id/alt_text" />
+            android:layout_alignStart="@+id/alt_text"
+            android:text="xPos"
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="yPos"
-            android:textSize="30dp"
             android:layout_alignBaseline="@+id/zText"
             android:layout_alignBottom="@+id/zText"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:text="yPos"
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/zText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/bottomBar"
+            android:layout_alignParentTop="true"
             android:layout_marginEnd="52dp"
             android:layout_marginTop="102dp"
             android:text="zPos"
-            android:textSize="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignEnd="@+id/bottomBar" />
+            android:textSize="30dp" />
 
         <!-- Location -->
+        <TextView
+            android:id="@+id/lat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/alt_text"
+            android:layout_below="@+id/xText"
+            android:layout_marginTop="59dp"
+            android:text="Latitude:"
+            android:textSize="30dp" />
+
         <TextView
             android:id="@+id/long_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:layout_alignBottom="@+id/alt_text"
+            android:layout_alignStart="@+id/alt_text"
+            android:layout_marginBottom="40dp"
             android:text="Longitude:"
-            android:layout_above="@+id/alt_text"
-            android:layout_alignStart="@+id/alt_text" />
+            android:textSize="30dp" />
 
         <TextView
             android:id="@+id/alt_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:layout_below="@+id/lat_text"
+            android:layout_marginEnd="33dp"
+            android:layout_marginTop="48dp"
+            android:layout_toStartOf="@+id/instructionsText"
             android:text="Altitude:"
-            android:layout_marginEnd="21dp"
-            android:layout_alignTop="@+id/testFragmentText"
-            android:layout_toStartOf="@+id/btn_read"
-            android:layout_marginTop="45dp" />
+            android:textSize="30dp" />
 
-        <TextView
-            android:id="@+id/lat_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Latitude:"
-            android:textSize="30dp"
-            android:layout_below="@+id/xText"
-            android:layout_alignStart="@+id/xText"
-            android:layout_marginTop="108dp" />
-
-
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start Recording"
-            android:layout_alignBaseline="@+id/btn_delete"
-            android:layout_alignBottom="@+id/btn_delete"
-            android:layout_centerHorizontal="true" />
-
+        <!-- Interval Selection -->
         <EditText
             android:id="@+id/number_opt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomBar"
+            android:layout_alignEnd="@+id/bottomBar"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="110dp"
             android:ems="10"
             android:inputType="number"
             android:selectAllOnFocus="true"
-            android:text="Measure (Times per Second)"
-            android:layout_above="@+id/btn_read"
-            android:layout_alignParentStart="true" />
+            android:text="Measure (Times per Second)" />
 
 
         <TextView
-            android:id="@+id/testFragmentText"
-            android:textSize="20dp"
+            android:id="@+id/instructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/number_opt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
             android:text="This will update rapidly..."
-            android:layout_below="@+id/lat_text"
-            android:layout_toEndOf="@+id/btn_save"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="91dp" />
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/btn_toggleGPS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Toggle_GPS_On"
-            android:layout_above="@+id/btn_delete"
             android:layout_alignParentEnd="true" />
+
 
         <!--Bottom Bar-->
         <com.roughike.bottombar.BottomBar

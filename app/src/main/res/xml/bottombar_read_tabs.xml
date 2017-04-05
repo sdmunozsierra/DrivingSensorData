@@ -16,10 +16,6 @@
             icon="@drawable/ic_home_black_24dp"
             title="@string/tab_home" />
         <tab
-            id="@+id/tab_stopRecording"
-            icon="@drawable/ic_stop_black_24dp"
-            title="@string/tab_stop" />
-        <tab
             id="@+id/tab_deleteFile"
             icon="@drawable/ic_delete_black_24dp"
             title="@string/tab_delete" />

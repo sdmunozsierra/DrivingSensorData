@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <!-- Tabs for the bottom bar tabs -->
     <tabs>
         <tab
@@ -9,16 +10,16 @@
             title="@string/tab_read" />
         <tab
             id="@+id/tab_startRecording"
-            icon="@drawable/ic_play_black_24dp"
+            icon="@drawable/start_stop_icon"
             title="@string/tab_start" />
         <tab
             id="@+id/tab_home"
             icon="@drawable/ic_home_black_24dp"
             title="@string/tab_home" />
         <tab
-            id="@+id/tab_stopRecording"
-            icon="@drawable/ic_stop_black_24dp"
-            title="@string/tab_stop" />
+            id="@+id/tab_location"
+            icon="@drawable/ic_location_on_black_24dp"
+            title="@string/tab_location_enable" />
         <tab
             id="@+id/tab_deleteFile"
             icon="@drawable/ic_delete_black_24dp"
