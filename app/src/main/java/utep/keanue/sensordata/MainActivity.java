@@ -47,6 +47,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static utep.keanue.sensordata.R.attr.buttonBarButtonStyle;
 import static utep.keanue.sensordata.R.attr.icon;
 
 /**
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //Record && Location //
     static boolean RECORD = false;
     static boolean LOCATION = false;
+    static int location_selector = -1;
 
     //Settings //
     private static int setMeasurementInterval = 0;
@@ -193,8 +195,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //Change title
                     bottomBar.selectTabAtPosition(1,true);
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
-                    ImageView plz = (ImageView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_icon);
-                    plz.setImageResource(R.drawable.ic_stop_black_24dp);
+                    ImageView icon = (ImageView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_icon);
+                    icon.setImageResource(R.drawable.ic_stop_black_24dp);
                     //TODO use strings.xml
                     titleView.setText("Stop Recording");
                     break;
@@ -204,36 +206,45 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     RECORD = false;
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Start Recording");
-                    ImageView plz = (ImageView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_icon);
-                    plz.setImageResource(R.drawable.ic_play_black_24dp);
+                    ImageView icon = (ImageView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_icon);
+                    icon.setImageResource(R.drawable.ic_play_black_24dp);
                     //Select home tab
                     bottomBar.selectTabAtPosition(2,true);
                 }
                 break;
             case R.id.tab_home:
-                //Fix selected icons
                 bottomBar.selectTabAtPosition(2,true);
                 break;
             case R.id.tab_location:
-                //TODO BUG 2: Color change to home works only once
-                //TODO BUG 3: Change icon back to disable location
-                if(!LOCATION){
-                    togglePeriodLocationUpdates();
+                location_selector++;
+                Log.d("Selector -> ", ""+location_selector);
+                bottomBar.invalidate();
+                if(location_selector %2 == 0){
+                    Log.d("Selector = 0", "");
                     LOCATION = true;
+                    togglePeriodLocationUpdates();
+                    bottomBar.selectTabAtPosition(3,true);
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Disable Location");
-                    bottomBar.selectTabWithId(R.id.tab_location);
+                    ImageView icon = (ImageView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_icon);
+                    icon.setImageResource(R.drawable.ic_location_off_black_24dp);
+
                     break;
                 }
                 else{
-                    togglePeriodLocationUpdates();
+                    Log.d("Selector = 1", "");
                     LOCATION = false;
+                    togglePeriodLocationUpdates();
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Enable Location");
-                    bottomBar.selectTabAtPosition(2,true);
+                    ImageView icon = (ImageView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_icon);
+                    icon.setImageResource(R.drawable.ic_location_on_black_24dp);
                 }
+                //bottomBar.selectTabAtPosition(4);
+                bottomBar.selectTabAtPosition(2,true);
                 break;
             case R.id.tab_deleteFile:
+                bottomBar.selectTabAtPosition(2,true);
                 File fileName = new File(FileHelper.path + FileHelper.fileName);
                 if (FileHelper.deleteFile(fileName)) {
                     Toast.makeText(MainActivity.this, "Deleted file", Toast.LENGTH_SHORT).show();
