@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.location.Location;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         instructionsText = (TextView) findViewById(R.id.instructionsText);
 
         //Assign Instructions
-        instructionsText.setText("Enter Interval:");
+        instructionsText.setText("Enter update Interval:");
 
         //Assign GPS Location
         longText = (TextView) findViewById(R.id.long_text);
@@ -131,7 +132,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         /* Edit Text */
         myEditText = (EditText) findViewById(R.id.number_opt);
+        //Change the color of the line alone
+       // myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.utepOrange), PorterDuff.Mode.SRC_ATOP);
         myEditText.setText(""); //Set to empty
+        myEditText.clearFocus();
         myEditText.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
