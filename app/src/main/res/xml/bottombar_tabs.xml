@@ -7,22 +7,31 @@
         <tab
             id="@+id/tab_readRecords"
             icon="@drawable/ic_open_black_24dp"
+            inActiveColor="#4A4A4A"
+            barColorWhenSelected="@color/backgroundPeach"
             title="@string/tab_read" />
         <tab
             id="@+id/tab_startRecording"
             icon="@drawable/start_stop_icon"
-            title="@string/tab_start" />
+            title="@string/tab_start"
+            barColorWhenSelected="@color/backgroundBlue"
+            inActiveColor="#4A4A4A"/>
         <tab
-        id="@+id/tab_home"
-        icon="@drawable/ic_home_black_24dp"
-        title="@string/tab_home" />
+            id="@+id/tab_home"
+            icon="@drawable/ic_home_black_24dp"
+            title="@string/tab_home"
+            barColorWhenSelected="@color/utepOrange"
+            inActiveColor="#4A4A4A"/>
         <tab
             id="@+id/tab_location"
             icon="@drawable/on_off_location_icon"
+            barColorWhenSelected="#5FAD56"
+            inActiveColor="#4A4A4A"
             title="@string/tab_location_enable" />
         <tab
             id="@+id/tab_deleteFile"
             icon="@drawable/ic_delete_black_24dp"
+            inActiveColor="#4A4A4A"
             title="@string/tab_delete" />
     </tabs>
 </PreferenceScreen>

@@ -1,9 +1,13 @@
 package utep.keanue.sensordata;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.location.Location;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,10 +25,12 @@ import android.text.Editable;
 import android.util.Log;
 //Text, buttons and toasts
 import android.view.KeyEvent;
+import android.view.PointerIcon;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 //Google Play Services
@@ -35,10 +41,13 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.BottomBarTab;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static utep.keanue.sensordata.R.attr.icon;
 
 /**
  * Class that will demonstrate the use of Accelerometer and GPS sensors to: add research info.
@@ -73,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager sensorManager;
 
     //Bottom Bar Object
-    private BottomBar bottomBar;
+    public BottomBar bottomBar;
+    public BottomBar phantomBar;
 
     // Data Strings //
     private String current_ac_data;     //Accelerometer data
@@ -159,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         findViewById(R.id.tab_location).setOnClickListener(this);
         findViewById(R.id.tab_deleteFile).setOnClickListener(this);
 
-
     }//end onCreate
 
     @Override
@@ -169,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (v.getId()) {
             case R.id.tab_readRecords:
                 startActivity(new Intent(MainActivity.this, readFile.class));
+                //bottomBar.selectTabWithId(R.id.tab_readRecords);
                 break;
             case R.id.tab_startRecording:
                 //TODO Create toasts for recording on/off
@@ -181,9 +191,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     RECORD = true;
                     startMeasurements(setMeasurementInterval);
                     //Change title
-                    bottomBar.selectTabWithId(R.id.tab_startRecording);
+                    bottomBar.selectTabAtPosition(1,true);
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
-                    //TextView titleView = (TextView) bottomBar.findViewById(R.id.bb_bottom_bar_title);
+                    ImageView plz = (ImageView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_icon);
+                    plz.setImageResource(R.drawable.ic_stop_black_24dp);
                     //TODO use strings.xml
                     titleView.setText("Stop Recording");
                     break;
@@ -193,27 +204,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     RECORD = false;
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Start Recording");
-                    bottomBar.selectTabWithId(R.id.tab_home);
+                    ImageView plz = (ImageView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_icon);
+                    plz.setImageResource(R.drawable.ic_play_black_24dp);
+                    //Select home tab
+                    bottomBar.selectTabAtPosition(2,true);
                 }
                 break;
             case R.id.tab_home:
-                Log.d("TAB HOME", "putamadre");
-
+                //Fix selected icons
+                bottomBar.selectTabAtPosition(2,true);
                 break;
             case R.id.tab_location:
+                //TODO BUG 2: Color change to home works only once
+                //TODO BUG 3: Change icon back to disable location
                 if(!LOCATION){
                     togglePeriodLocationUpdates();
                     LOCATION = true;
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Disable Location");
                     bottomBar.selectTabWithId(R.id.tab_location);
+                    break;
                 }
                 else{
                     togglePeriodLocationUpdates();
                     LOCATION = false;
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Enable Location");
-                    bottomBar.selectTabWithId(R.id.tab_home);
+                    bottomBar.selectTabAtPosition(2,true);
                 }
                 break;
             case R.id.tab_deleteFile:
@@ -232,6 +249,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     /** Start Measurements
      * @param interval How many times per seconds the measurements are going to be made*/
     public void startMeasurements(int interval) {
+
+        //Request permission write external file
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+
+        }
         //How many times per second the read is going to be made
         final int millis =  1000/interval;
 
@@ -240,10 +267,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             @Override
             public void run() {
-                //Request permission write external file
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
                 int measurements_made = 0;
                 try {
                     while (RECORD) {

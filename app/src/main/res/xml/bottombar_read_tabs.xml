@@ -4,16 +4,22 @@
     <!-- Tabs for the bottom bar tabs -->
     <tabs>
         <tab
-            id="@+id/tab_goBack"
+            id="@+id/tab_read2"
             icon="@drawable/ic_open_black_24dp"
-            title="@string/tab_back" />
+            title="@string/tab_read"
+            barColorWhenSelected="@color/backgroundPeach"
+            inActiveColor="#4A4A4A"/>
+
         <tab
-            id="@+id/tab_home"
+            id="@+id/tab_home2"
             icon="@drawable/ic_home_black_24dp"
-            title="@string/tab_home" />
+            title="@string/tab_home"
+            barColorWhenSelected="@color/utepOrange"
+            inActiveColor="#4A4A4A"/>
         <tab
             id="@+id/tab_deleteFile"
             icon="@drawable/ic_delete_black_24dp"
-            title="@string/tab_delete" />
+            title="@string/tab_delete"
+            inActiveColor="#4A4A4A"/>
     </tabs>
 </PreferenceScreen>

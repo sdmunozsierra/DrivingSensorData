@@ -3,4 +3,22 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
+    <color name="white">#ffffff</color>
+
+    <!-- Test Colors -->
+    <color name="utepOrange">#FF7D23</color>
+    <color name="primaryOrange">#F17F42</color>
+    <color name="strongOrange">#C66837</color>
+    <color name="weakOrange">#F39664</color>
+
+    <!-- Material UI Flat Colors -->
+    <color name="materialCarrot">#e67e22</color>
+    <color name="materialPumpkin">#d35400</color>
+
+    <!-- Used Colors -->
+
+    <color name="backgroundPeach">#F57A7A</color>
+    <color name="backgroundBlue">#3c91e6</color>
+
+
 </resources>

@@ -6,6 +6,9 @@
     <string name="Toggle_GPS_Off">Deactivate GPS</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Strings for Read File Activity -->
+    <string name="text_SensorData">Collected Data:</string>
+
     <!-- Strings for Bottom Bar -->
     <string name="tab_read">Read Records</string>
     <string name="tab_start">Start Recording</string>
