@@ -41,7 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Class that will demonstrate the use of Accelometer (Sensor).
+ * Class that will demonstrate the use of Accelerometer and GPS sensors to: add research info.
  * implement: SensorEventListener
  */
 public class MainActivity extends AppCompatActivity implements SensorEventListener, GoogleApiClient.
@@ -145,44 +145,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             createLocationRequest();
         }
 
-        Button btn_toggleGPS = (Button) findViewById(R.id.btn_toggleGPS);
-                /* Toggle GPS */
-        btn_toggleGPS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                togglePeriodLocationUpdates();
-            }
-        });//end onClick SaveFile);
-
-//        /* Save on File */
-//        btn_save.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            /** Save current data along with timestamp to file */
-//            public void onClick(View v) {
-//                Log.d("Btn_save: Clicked!", "Going into button");
-//                if(setMeasurementInterval == 0){
-//                    Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                //Button START
-//                else if(btn_save.getText().equals("START RECORDING")){
-//                    Log.d("Btn_save: Clicked!", "StartMeasurements()");
-//                    //Run updateInterval
-//                    RECORD = true;
-//                    startMeasurements(setMeasurementInterval);
-//                    btn_save.setText("STOP");
-//                    //return;
-//                }
-//                else{
-//                    Log.d("Btn_save: Clicked!", "StopMeasurements()");
-//                    RECORD = false;
-//                    btn_save.setText("START RECORDING");
-//                }
-//
-//            }
-//        });//end onClick SaveFile
-
-
         //Bottom Bar
         /** Bottom Bar
          * Thanks to this bar I will remove three buttons (Read, Start & Delete)
@@ -209,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 startActivity(new Intent(MainActivity.this, readFile.class));
                 break;
             case R.id.tab_startRecording:
-                //TODO Create tosts for recording on/off
+                //TODO Create toasts for recording on/off
                 if(setMeasurementInterval == 0) {
                     Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
                     return;
@@ -224,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //TextView titleView = (TextView) bottomBar.findViewById(R.id.bb_bottom_bar_title);
                     //TODO use strings.xml
                     titleView.setText("Stop Recording");
-                    //break;
+                    break;
                 }
                 //Stop recording
                 else {
@@ -232,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_startRecording).findViewById(R.id.bb_bottom_bar_title);
                     titleView.setText("Start Recording");
                     bottomBar.selectTabWithId(R.id.tab_home);
-                    //break;
                 }
                 break;
             case R.id.tab_home:
@@ -240,22 +201,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 break;
             case R.id.tab_location:
-//                if(!LOCATION){
-//                    //togglePeriodLocationUpdates();
-//                    LOCATION = true;
-//                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
-//                    titleView.setText("Disable Location");
-//                    bottomBar.selectTabWithId(R.id.tab_location);
-////                    //displayLocation();
-//                }
-//                else{
-//                    //togglePeriodLocationUpdates();
-//                    LOCATION = false;
-//                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
-//                    titleView.setText("Enable Location");
-//                    bottomBar.selectTabWithId(R.id.tab_home);
-//                }
-//                break;
+                if(!LOCATION){
+                    togglePeriodLocationUpdates();
+                    LOCATION = true;
+                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
+                    titleView.setText("Disable Location");
+                    bottomBar.selectTabWithId(R.id.tab_location);
+                }
+                else{
+                    togglePeriodLocationUpdates();
+                    LOCATION = false;
+                    TextView titleView = (TextView) bottomBar.findViewById(R.id.tab_location).findViewById(R.id.bb_bottom_bar_title);
+                    titleView.setText("Enable Location");
+                    bottomBar.selectTabWithId(R.id.tab_home);
+                }
+                break;
             case R.id.tab_deleteFile:
                 File fileName = new File(FileHelper.path + FileHelper.fileName);
                 if (FileHelper.deleteFile(fileName)) {
@@ -274,8 +234,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void startMeasurements(int interval) {
         //How many times per second the read is going to be made
         final int millis =  1000/interval;
-
-//        RECORD = true;
 
         //Create a new thread
         Thread t = new Thread() {

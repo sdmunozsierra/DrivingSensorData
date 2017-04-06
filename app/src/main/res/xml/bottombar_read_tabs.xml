@@ -8,10 +8,6 @@
             icon="@drawable/ic_open_black_24dp"
             title="@string/tab_back" />
         <tab
-            id="@+id/tab_startRecording"
-            icon="@drawable/ic_play_black_24dp"
-            title="@string/tab_start" />
-        <tab
             id="@+id/tab_home"
             icon="@drawable/ic_home_black_24dp"
             title="@string/tab_home" />

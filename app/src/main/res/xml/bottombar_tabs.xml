@@ -13,12 +13,12 @@
             icon="@drawable/start_stop_icon"
             title="@string/tab_start" />
         <tab
-            id="@+id/tab_home"
-            icon="@drawable/ic_home_black_24dp"
-            title="@string/tab_home" />
+        id="@+id/tab_home"
+        icon="@drawable/ic_home_black_24dp"
+        title="@string/tab_home" />
         <tab
             id="@+id/tab_location"
-            icon="@drawable/ic_location_on_black_24dp"
+            icon="@drawable/on_off_location_icon"
             title="@string/tab_location_enable" />
         <tab
             id="@+id/tab_deleteFile"
