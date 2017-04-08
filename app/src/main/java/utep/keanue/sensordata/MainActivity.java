@@ -183,11 +183,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         switch (v.getId()) {
             case R.id.tab_readRecords:
+                myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.backgroundPeach), PorterDuff.Mode.SRC_ATOP);
                 startActivity(new Intent(MainActivity.this, readFile.class));
                 //bottomBar.selectTabWithId(R.id.tab_readRecords);
                 break;
             case R.id.tab_startRecording:
                 //TODO Create toasts for recording on/off
+                myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.backgroundBlue), PorterDuff.Mode.SRC_ATOP);
                 if(setMeasurementInterval == 0) {
                     Toast.makeText(MainActivity.this, "Select Interval", Toast.LENGTH_SHORT).show();
                     return;
@@ -217,12 +219,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 }
                 break;
             case R.id.tab_home:
+                myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.utepOrange), PorterDuff.Mode.SRC_ATOP);
                 bottomBar.selectTabAtPosition(2,true);
                 break;
             case R.id.tab_location:
+                myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.backgroundGreen), PorterDuff.Mode.SRC_ATOP);
                 location_selector++;
                 Log.d("Selector -> ", ""+location_selector);
-                bottomBar.invalidate();
                 if(location_selector %2 == 0){
                     Log.d("Selector = 0", "");
                     LOCATION = true;

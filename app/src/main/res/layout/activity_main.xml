@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:windowSoftInputMode="stateHidden"
     tools:context="utep.keanue.sensordata.MainActivity"
     android:weightSum="1">
 
@@ -15,9 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <!-- Accelerometer -->
-        <!--  Changing Text -->
         <TextView
             android:id="@+id/xText"
             android:layout_width="wrap_content"
@@ -81,6 +80,16 @@
             android:textSize="30sp" />
 
         <!-- Interval Selection -->
+        <TextView
+            android:id="@+id/instructionsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/number_opt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:text="This will update rapidly..."
+            android:textSize="20dp" />
+
         <EditText
             android:id="@+id/number_opt"
             android:layout_width="wrap_content"
@@ -96,18 +105,7 @@
             android:layout_alignStart="@+id/alt_text"
             android:layout_alignEnd="@+id/zText" />
 
-
-        <TextView
-            android:id="@+id/instructionsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/number_opt"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:text="This will update rapidly..."
-            android:textSize="20dp" />
-
-        <!--Bottom Bar-->
+        <!-- Bottom Bar-->
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
