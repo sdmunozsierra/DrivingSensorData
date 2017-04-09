@@ -349,6 +349,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         String fixZ = z.substring(0,5);
         zText.setText("Z Axis:\n" + fixZ);
 
+        //Add padding for a better background look
+        xText.setPadding(45,6,0,5);
+        yText.setPadding(45,6,0,5);
+        zText.setPadding(45,6,0,5);
+
     }
 
 

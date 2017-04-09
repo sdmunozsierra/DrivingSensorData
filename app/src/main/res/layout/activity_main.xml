@@ -21,16 +21,20 @@
             android:id="@+id/xText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/new4"
+            android:textColor="#ffffff"
+            android:text="xPos"
+            android:textSize="30sp"
             android:layout_alignBaseline="@+id/yText"
             android:layout_alignBottom="@+id/yText"
-            android:layout_alignStart="@+id/alt_text"
-            android:text="xPos"
-            android:textSize="30sp" />
+            android:layout_alignStart="@+id/lat_text" />
 
         <TextView
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/orange_1"
+            android:textColor="#ffffff"
             android:layout_alignBaseline="@+id/zText"
             android:layout_alignBottom="@+id/zText"
             android:layout_centerHorizontal="true"
@@ -41,6 +45,8 @@
             android:id="@+id/zText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/green_1"
+            android:textColor="#ffffff"
             android:layout_marginEnd="39dp"
             android:layout_marginTop="106dp"
             android:text="zPos"
