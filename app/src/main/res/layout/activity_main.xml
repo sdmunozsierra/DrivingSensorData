@@ -21,38 +21,38 @@
             android:id="@+id/xText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/new4"
-            android:textColor="#ffffff"
-            android:text="xPos"
-            android:textSize="30sp"
             android:layout_alignBaseline="@+id/yText"
             android:layout_alignBottom="@+id/yText"
-            android:layout_alignStart="@+id/lat_text" />
+            android:layout_alignStart="@+id/lat_text"
+            android:background="@drawable/textbox_blue"
+            android:text="xPos"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/orange_1"
-            android:textColor="#ffffff"
             android:layout_alignBaseline="@+id/zText"
             android:layout_alignBottom="@+id/zText"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/textbox_orange"
             android:text="yPos"
+            android:textColor="#ffffff"
             android:textSize="30sp" />
 
         <TextView
             android:id="@+id/zText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/green_1"
-            android:textColor="#ffffff"
+            android:layout_alignEnd="@+id/bottomBar"
+            android:layout_alignParentTop="true"
             android:layout_marginEnd="39dp"
             android:layout_marginTop="106dp"
+            android:background="@drawable/textbox_green_shadow"
             android:text="zPos"
-            android:textSize="30sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignEnd="@+id/bottomBar" />
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
 
         <!-- Location -->
         <TextView
@@ -72,6 +72,7 @@
             android:layout_alignBottom="@+id/alt_text"
             android:layout_alignStart="@+id/alt_text"
             android:layout_marginBottom="40dp"
+            android:background="@drawable/gps"
             android:text="Longitude:"
             android:textSize="30sp" />
 
@@ -100,16 +101,16 @@
             android:id="@+id/number_opt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/bottomBar"
+            android:layout_alignEnd="@+id/zText"
+            android:layout_alignStart="@+id/alt_text"
             android:layout_marginBottom="95dp"
             android:ems="10"
             android:inputType="number"
             android:selectAllOnFocus="true"
             android:text="Measure (Times per Second)"
             android:textColor="@color/bb_darkBackgroundColor"
-            android:theme="@style/MyEditTextTheme"
-            android:layout_above="@+id/bottomBar"
-            android:layout_alignStart="@+id/alt_text"
-            android:layout_alignEnd="@+id/zText" />
+            android:theme="@style/MyEditTextTheme" />
 
         <!-- Bottom Bar-->
         <com.roughike.bottombar.BottomBar
