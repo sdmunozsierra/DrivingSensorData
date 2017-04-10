@@ -30,6 +30,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.PointerIcon;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +47,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -89,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     //Bottom Bar Object
     public BottomBar bottomBar;
+    //TODO remove phantombar
     public BottomBar phantomBar;
 
     // Data Strings //
@@ -110,10 +115,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* Status Bar */
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.statusBar));
+
         /* Fonts */
         AssetManager am = this.getApplicationContext().getAssets();
         Typeface firaBook = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Book.otf"));
         Typeface firaThin = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Thin.otf"));
+        Typeface firaMedium = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Medium.otf"));
 
         /* Sensor Variables */
         // Create Sensor Manager
@@ -135,8 +147,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         zText.setTypeface(firaBook);
         instructionsText.setTypeface(firaBook);
 
-        //Assign Instructions
+        //Extra Texts
         instructionsText.setText("Enter update Interval:");
+        TextView textGps = (TextView) findViewById(R.id.text_gps);
+        textGps.setTypeface(firaMedium);
 
         //Assign GPS Location
         longText = (TextView) findViewById(R.id.long_text);
@@ -144,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         altText = (TextView) findViewById(R.id.alt_text);
         //Set Font
         longText.setTypeface(firaThin);
-        latText.setTypeface(firaThin);
-        altText.setTypeface(firaThin);
+        latText.setTypeface(firaBook);
+        altText.setTypeface(firaMedium);
 
         /* Edit Text */
         myEditText = (EditText) findViewById(R.id.number_opt);

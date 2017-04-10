@@ -19,6 +19,10 @@
     <color name="backgroundGreen">#5FAD56</color>
     <color name="backgroundPeach">#F57A7A</color>
     <color name="backgroundBlue">#3c91e6</color>
+    <color name="whity">#FCFCFC</color>
+
+    <color name="statusBar">#48519E</color>
+
 
 
 </resources>

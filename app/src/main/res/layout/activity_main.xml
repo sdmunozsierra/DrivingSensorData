@@ -13,10 +13,11 @@
 
 
     <!-- From Top to Bottom -->
-    <!-- Sensor Data Text: -->
+    <!-- GPS Text: -->
     <LinearLayout
         android:orientation="horizontal"
-        android:id="@+id/sensorText"
+        android:background="#498BCA"
+        android:id="@+id/gpsText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -24,10 +25,74 @@
             android:id="@+id/text_gps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPS Location" />
+            android:layout_marginTop="10sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="10sp"
+            android:textSize="30sp"
+            android:textColor="@color/whity"
+            android:text="GPS LOCATION" />
 
     </LinearLayout>
 
+    <!-- Location -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gps_dark_flat">
+
+
+        <TextView
+            android:id="@+id/lat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120sp"
+            android:layout_marginTop="36sp"
+            android:text="Latitude:"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/long_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120sp"
+            android:layout_marginTop="56sp"
+            android:text="Longitude:"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/alt_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120sp"
+            android:layout_marginTop="44sp"
+            android:text="Altitude:"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <!-- Sensor Data Text: -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@color/backgroundGreen"
+        android:id="@+id/sensorText_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_sensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="10sp"
+            android:textSize="30sp"
+            android:textColor="@color/whity"
+            android:text="Accelerometer" />
+
+    </LinearLayout>
     <!-- Accelerometer -->
     <LinearLayout
         android:id="@+id/accelerometerFrame"
@@ -65,45 +130,6 @@
             android:textSize="30sp" />
     </LinearLayout>
 
-    <!-- Location -->
-    <LinearLayout
-        android:layout_marginTop="60sp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/planet_gps">
-
-
-        <TextView
-            android:id="@+id/lat_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120sp"
-            android:layout_marginTop="36sp"
-            android:text="Latitude:"
-            android:textColor="@color/bb_darkBackgroundColor"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/long_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120sp"
-            android:layout_marginTop="56sp"
-            android:text="Longitude:"
-            android:textColor="@color/bb_darkBackgroundColor"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/alt_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="120sp"
-            android:layout_marginTop="44sp"
-            android:text="Altitude:"
-            android:textColor="@color/bb_darkBackgroundColor"
-            android:textSize="40sp" />
-    </LinearLayout>
 
     <!-- Interval Selection -->
     <LinearLayout
