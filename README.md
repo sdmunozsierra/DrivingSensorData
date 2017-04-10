@@ -19,12 +19,13 @@
 
 ### AI Features:
 
-* [Bottom bar](https://github.com/roughike/BottomBar) with API level 11 (Honeycomb).
+* [Material Design](https://material.io/guidelines/#introduction-principles) Themed.
+* [Bottom bar](https://github.com/roughike/BottomBar).
 
 ### Missing Features:
 
 * Add send through email
-* Improve AI
+* Complete Material Design approach
 
 ## Location
 
@@ -34,7 +35,18 @@ _If you're cloning from source:_ Download and set up [google play services](http
 
 ## Testing
 
+### Eulator
 1. Android Studio (Include Link)
 2. Android SDK Tools (Include Link)
 3. Android Emulator (Include Link)
   * Download the latest Android x86 Image with Google API (Else won't work)
+  
+### Physical Device
+1. Download the _unsigned_ APK
+2. Install
+3. Gran Permissions
+4. Test
+5. Feedback
+
+__Tested on Devices:__
+* Alcatel OneTouch Pixi 4 (7") [9000A]
