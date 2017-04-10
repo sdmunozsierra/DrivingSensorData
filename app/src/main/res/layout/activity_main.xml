@@ -3,107 +3,127 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/activity_main"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:windowSoftInputMode="stateHidden"
     tools:context="utep.keanue.sensordata.MainActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:orientation="vertical">
 
-    <!-- Main Frame -->
-    <RelativeLayout
-        android:id="@+id/frameMain"
+
+    <!-- From Top to Bottom -->
+    <!-- Sensor Data Text: -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/sensorText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <!-- Accelerometer -->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <!-- Accelerometer -->
+    <LinearLayout
+        android:id="@+id/accelerometerFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/xText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/yText"
-            android:layout_alignBottom="@+id/yText"
-            android:layout_alignStart="@+id/lat_text"
-            android:background="@drawable/textbox_blue"
+            android:background="@drawable/textbox_blue_shadow"
             android:text="xPos"
             android:textColor="#ffffff"
             android:textSize="30sp" />
 
         <TextView
+            android:layout_marginStart="10sp"
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/zText"
-            android:layout_alignBottom="@+id/zText"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/textbox_orange"
+            android:background="@drawable/textbox_orange_shadow"
             android:text="yPos"
-            android:textColor="#ffffff"
+            android:textColor="#FCFEFE"
             android:textSize="30sp" />
 
         <TextView
+            android:layout_marginStart="10sp"
             android:id="@+id/zText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/bottomBar"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="39dp"
-            android:layout_marginTop="106dp"
-            android:background="@drawable/textbox_green_shadow"
+            android:background="@drawable/textbox_green_shadow_1"
             android:text="zPos"
-            android:textColor="#ffffff"
+            android:textColor="#FCFEFE"
             android:textSize="30sp" />
+    </LinearLayout>
 
-        <!-- Location -->
+    <!-- Location -->
+    <LinearLayout
+        android:layout_marginTop="80sp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gps_3">
+
+
         <TextView
             android:id="@+id/lat_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/alt_text"
-            android:layout_below="@+id/xText"
-            android:layout_marginTop="59dp"
+            android:layout_marginStart="100sp"
+            android:layout_marginTop="36sp"
             android:text="Latitude:"
-            android:textSize="30sp" />
+            android:textColor="@color/bb_darkBackgroundColor"
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/long_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/alt_text"
-            android:layout_alignStart="@+id/alt_text"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/gps"
+            android:layout_marginStart="100sp"
+            android:layout_marginTop="56sp"
             android:text="Longitude:"
-            android:textSize="30sp" />
+            android:textColor="@color/bb_darkBackgroundColor"
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/alt_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lat_text"
-            android:layout_marginTop="48dp"
-            android:layout_toStartOf="@+id/instructionsText"
+            android:layout_marginStart="100sp"
+            android:layout_marginTop="48sp"
             android:text="Altitude:"
-            android:textSize="30sp" />
+            android:textColor="@color/bb_darkBackgroundColor"
+            android:textSize="40sp" />
+    </LinearLayout>
 
-        <!-- Interval Selection -->
+    <!-- Interval Selection -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <TextView
+            android:layout_marginTop="90sp"
             android:id="@+id/instructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/number_opt"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_marginBottom="12dp"
             android:text="This will update rapidly..."
-            android:textSize="20dp" />
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/number_opt"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bottomBar"
-            android:layout_alignEnd="@+id/zText"
-            android:layout_alignStart="@+id/alt_text"
             android:layout_marginBottom="95dp"
             android:ems="10"
             android:inputType="number"
@@ -112,6 +132,11 @@
             android:textColor="@color/bb_darkBackgroundColor"
             android:theme="@style/MyEditTextTheme" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
         <!-- Bottom Bar-->
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomBar"
@@ -119,10 +144,12 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             app:bb_activeTabColor="@color/white"
-            app:bb_tabXmlResource="@xml/bottombar_tabs" />
+            app:bb_tabXmlResource="@xml/bottombar_tabs">
+        </com.roughike.bottombar.BottomBar>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
+    </LinearLayout>
 
 </LinearLayout>

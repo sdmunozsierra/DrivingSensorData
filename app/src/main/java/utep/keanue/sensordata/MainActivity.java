@@ -540,7 +540,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 double altitude = mLastLocation.getAltitude();
 
                 //Display in Screen
-                latText.setText("latitude: " + latitude);
+                latText.setText("Latitude: " + latitude);
                 longText.setText("Longitude: " + longitude);
                 altText.setText("Altitude: "+altitude);
 
