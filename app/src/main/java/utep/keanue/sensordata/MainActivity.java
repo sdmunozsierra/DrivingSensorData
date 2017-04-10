@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.location.Location;
@@ -47,6 +49,7 @@ import com.roughike.bottombar.BottomBarTab;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static utep.keanue.sensordata.R.attr.buttonBarButtonStyle;
 import static utep.keanue.sensordata.R.attr.icon;
@@ -107,6 +110,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* Fonts */
+        AssetManager am = this.getApplicationContext().getAssets();
+        Typeface firaBook = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Book.otf"));
+        Typeface firaThin = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Thin.otf"));
+
         /* Sensor Variables */
         // Create Sensor Manager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -121,6 +129,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         yText = (TextView) findViewById(R.id.yText);
         zText = (TextView) findViewById(R.id.zText);
         instructionsText = (TextView) findViewById(R.id.instructionsText);
+        //Set Font
+        xText.setTypeface(firaBook);
+        yText.setTypeface(firaBook);
+        zText.setTypeface(firaBook);
+        instructionsText.setTypeface(firaBook);
 
         //Assign Instructions
         instructionsText.setText("Enter update Interval:");
@@ -129,6 +142,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         longText = (TextView) findViewById(R.id.long_text);
         latText = (TextView) findViewById(R.id.lat_text);
         altText = (TextView) findViewById(R.id.alt_text);
+        //Set Font
+        longText.setTypeface(firaThin);
+        latText.setTypeface(firaThin);
+        altText.setTypeface(firaThin);
 
         /* Edit Text */
         myEditText = (EditText) findViewById(R.id.number_opt);

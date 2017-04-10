@@ -8,7 +8,8 @@
     android:windowSoftInputMode="stateHidden"
     tools:context="utep.keanue.sensordata.MainActivity"
     android:weightSum="1"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
 
     <!-- From Top to Bottom -->
@@ -20,10 +21,10 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/text_gps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="GPS Location" />
 
     </LinearLayout>
 
@@ -48,7 +49,7 @@
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/textbox_orange_shadow"
+            android:background="@drawable/textbox_pink_shadow"
             android:text="yPos"
             android:textColor="#FCFEFE"
             android:textSize="30sp" />
@@ -66,18 +67,18 @@
 
     <!-- Location -->
     <LinearLayout
-        android:layout_marginTop="80sp"
+        android:layout_marginTop="60sp"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gps_3">
+        android:background="@drawable/planet_gps">
 
 
         <TextView
             android:id="@+id/lat_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100sp"
+            android:layout_marginStart="120sp"
             android:layout_marginTop="36sp"
             android:text="Latitude:"
             android:textColor="@color/bb_darkBackgroundColor"
@@ -87,7 +88,7 @@
             android:id="@+id/long_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100sp"
+            android:layout_marginStart="120sp"
             android:layout_marginTop="56sp"
             android:text="Longitude:"
             android:textColor="@color/bb_darkBackgroundColor"
@@ -97,8 +98,8 @@
             android:id="@+id/alt_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100sp"
-            android:layout_marginTop="48sp"
+            android:layout_marginStart="120sp"
+            android:layout_marginTop="44sp"
             android:text="Altitude:"
             android:textColor="@color/bb_darkBackgroundColor"
             android:textSize="40sp" />
@@ -122,19 +123,20 @@
 
         <EditText
             android:id="@+id/number_opt"
-            android:layout_width="match_parent"
+            android:layout_width="347dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="95dp"
             android:ems="10"
             android:inputType="number"
             android:selectAllOnFocus="true"
+            android:layout_gravity="center"
             android:text="Measure (Times per Second)"
             android:textColor="@color/bb_darkBackgroundColor"
             android:theme="@style/MyEditTextTheme" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
         <!-- Bottom Bar-->
