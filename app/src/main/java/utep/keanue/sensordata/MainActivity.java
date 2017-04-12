@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Typeface firaBook = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Book.otf"));
         Typeface firaThin = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Thin.otf"));
         Typeface firaMedium = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FiraSans-Medium.otf"));
-
+        Typeface franklin = Typeface.createFromAsset(am, String.format(Locale.US, "fonts/%s", "FRABK.TTF"));
         /* Sensor Variables */
         // Create Sensor Manager
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -153,12 +153,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         TextView textAccelTitle = (TextView) findViewById(R.id.text_accelerometer);
         TextView textIntervalTitle = (TextView) findViewById(R.id.text_interval);
 
-
-
-        textGpsTitle.setTypeface(firaMedium);
-        textAccelTitle.setTypeface(firaMedium);
-        textIntervalTitle.setTypeface(firaMedium);
-
+        textGpsTitle.setTypeface(franklin);
+        textAccelTitle.setTypeface(franklin);
+        textIntervalTitle.setTypeface(franklin);
+//
+//        textGpsTitle.setTextColor(getResources().getColor(R.color.utepOrange));
+//        textAccelTitle.setTextColor(getResources().getColor(R.color.utepOrange));
+//        textIntervalTitle.setTextColor(getResources().getColor(R.color.utepOrange));
         //Assign GPS Location
         longText = (TextView) findViewById(R.id.long_text);
         latText = (TextView) findViewById(R.id.lat_text);
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         longText.setTypeface(firaBook);
         latText.setTypeface(firaBook);
         altText.setTypeface(firaBook);
+
 
         /* Edit Text */
         myEditText = (EditText) findViewById(R.id.number_opt);

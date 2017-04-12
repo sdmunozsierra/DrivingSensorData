@@ -16,7 +16,7 @@
     <!-- GPS Text: -->
     <LinearLayout
         android:orientation="horizontal"
-        android:background="@color/material_dividers"
+        android:background="@color/material_secundary"
         android:id="@+id/gpsText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -30,16 +30,34 @@
             android:layout_marginBottom="5sp"
             android:textSize="30sp"
             android:textColor="@color/white"
-            android:text="GPS LOCATION                          [ICON]" />
+            android:text="GPS LOCATION" />
+
 
     </LinearLayout>
+
+
+    <!-- Padding -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/material_black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IM NOT VISIBLE"
+            android:textSize="3sp"
+            />
+
+    </LinearLayout>
+    <!-- End Padding-->
 
     <!-- Location -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gps_dark_planets2">
+        android:background="@drawable/gps_dark_planets3">
 
 
         <TextView
@@ -47,36 +65,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="120sp"
-            android:layout_marginTop="36sp"
+            android:layout_marginTop="38sp"
             android:text="Latitude:"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="36sp" />
 
         <TextView
             android:id="@+id/long_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="120sp"
-            android:layout_marginTop="56sp"
+            android:layout_marginTop="58sp"
             android:text="Longitude:"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="36sp" />
 
         <TextView
             android:id="@+id/alt_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="120sp"
-            android:layout_marginTop="44sp"
+            android:layout_marginTop="46sp"
             android:text="Altitude:"
             android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:textSize="36sp" />
     </LinearLayout>
+
+    <!-- Padding UP -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/material_black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IM NOT VISIBLE"
+            android:textSize="3sp"
+            />
+
+    </LinearLayout>
+    <!-- End Padding-->
 
     <!-- Accelerometer Data Text: -->
     <LinearLayout
         android:orientation="horizontal"
-        android:background="@color/material_dividers"
+        android:background="@color/material_secundary"
         android:id="@+id/sensorText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -89,17 +123,34 @@
             android:layout_marginStart="20sp"
             android:layout_marginBottom="5sp"
             android:textSize="30sp"
-            android:background="@color/material_dividers"
+            android:background="@color/material_secundary"
             android:textColor="@color/white"
-            android:text="ACCELEROMETER                     [ICON]" />
+            android:text="ACCELEROMETER" />
 
     </LinearLayout>
+
+                <!-- Padding -->
+                <LinearLayout
+                   android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                 android:background="@color/material_black">
+
+                   <TextView
+                       android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="IM NOT VISIBLE"
+                     android:textSize="3sp"
+                       />
+
+                </LinearLayout>
+                <!-- End Padding-->
+
     <!-- Accelerometer -->
     <LinearLayout
         android:id="@+id/accelerometerFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/axis5"
+        android:background="@drawable/axis7"
         android:orientation="horizontal">
 
         <TextView
@@ -133,10 +184,26 @@
             android:textSize="30sp" />
     </LinearLayout>
 
+    <!-- Padding UP -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/material_black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IM NOT VISIBLE"
+            android:textSize="3sp"
+            />
+
+    </LinearLayout>
+    <!-- End Padding-->
+
     <!-- Interval Text: -->
     <LinearLayout
         android:orientation="horizontal"
-        android:background="@color/material_dividers"
+        android:background="@color/material_secundary"
         android:id="@+id/intervalText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -150,19 +217,35 @@
             android:layout_marginBottom="5sp"
             android:textSize="30sp"
             android:textColor="@color/white"
-            android:text="INTERVAL                                    [ICON]" />
+            android:text="INTERVAL" />
 
     </LinearLayout>
+
+    <!-- Padding -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/material_black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IM NOT VISIBLE"
+            android:textSize="3sp"
+            />
+
+    </LinearLayout>
+    <!-- End Padding-->
 
     <!-- Interval Selection -->
     <LinearLayout
         android:orientation="vertical"
-        android:background="@color/material_secundary"
+        android:background="@color/material_dividers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="50sp"
             android:id="@+id/instructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -199,9 +282,9 @@
             app:bb_tabXmlResource="@xml/bottombar_tabs">
         </com.roughike.bottombar.BottomBar>
 
-
         </RelativeLayout>
 
     </LinearLayout>
+
 
 </LinearLayout>
