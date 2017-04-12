@@ -16,7 +16,7 @@
     <!-- GPS Text: -->
     <LinearLayout
         android:orientation="horizontal"
-        android:background="#498BCA"
+        android:background="@color/material_dividers"
         android:id="@+id/gpsText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -25,12 +25,12 @@
             android:id="@+id/text_gps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="5sp"
             android:layout_marginStart="20sp"
-            android:layout_marginBottom="10sp"
+            android:layout_marginBottom="5sp"
             android:textSize="30sp"
-            android:textColor="@color/whity"
-            android:text="GPS LOCATION" />
+            android:textColor="@color/white"
+            android:text="GPS LOCATION                          [ICON]" />
 
     </LinearLayout>
 
@@ -39,7 +39,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/gps_dark_flat">
+        android:background="@drawable/gps_dark_planets2">
 
 
         <TextView
@@ -73,24 +73,25 @@
             android:textSize="40sp" />
     </LinearLayout>
 
-    <!-- Sensor Data Text: -->
+    <!-- Accelerometer Data Text: -->
     <LinearLayout
         android:orientation="horizontal"
-        android:background="@color/backgroundGreen"
+        android:background="@color/material_dividers"
         android:id="@+id/sensorText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/text_sensor"
+            android:id="@+id/text_accelerometer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
+            android:layout_marginTop="5sp"
             android:layout_marginStart="20sp"
-            android:layout_marginBottom="10sp"
+            android:layout_marginBottom="5sp"
             android:textSize="30sp"
-            android:textColor="@color/whity"
-            android:text="Accelerometer" />
+            android:background="@color/material_dividers"
+            android:textColor="@color/white"
+            android:text="ACCELEROMETER                     [ICON]" />
 
     </LinearLayout>
     <!-- Accelerometer -->
@@ -98,66 +99,89 @@
         android:id="@+id/accelerometerFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/axis5"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/xText"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/textbox_blue_shadow"
             android:text="xPos"
-            android:textColor="#ffffff"
+            android:textColor="@color/white"
             android:textSize="30sp" />
 
         <TextView
-            android:layout_marginStart="10sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="70sp"
             android:id="@+id/yText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/textbox_pink_shadow"
             android:text="yPos"
-            android:textColor="#FCFEFE"
+            android:textColor="@color/white"
             android:textSize="30sp" />
 
         <TextView
-            android:layout_marginStart="10sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="70sp"
             android:id="@+id/zText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/textbox_green_shadow_1"
             android:text="zPos"
-            android:textColor="#FCFEFE"
+            android:textColor="@color/white"
             android:textSize="30sp" />
     </LinearLayout>
 
-
-    <!-- Interval Selection -->
+    <!-- Interval Text: -->
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:background="@color/material_dividers"
+        android:id="@+id/intervalText_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_marginTop="90sp"
+            android:id="@+id/text_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="5sp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:text="INTERVAL                                    [ICON]" />
+
+    </LinearLayout>
+
+    <!-- Interval Selection -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/material_secundary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginTop="20sp"
             android:id="@+id/instructionsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="12dp"
+            android:textColor="@color/white"
             android:text="This will update rapidly..."
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/number_opt"
             android:layout_width="347dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="95dp"
             android:ems="10"
             android:inputType="number"
             android:selectAllOnFocus="true"
             android:layout_gravity="center"
             android:text="Measure (Times per Second)"
-            android:textColor="@color/bb_darkBackgroundColor"
+            android:textColor="@color/white"
             android:theme="@style/MyEditTextTheme" />
 
         <RelativeLayout

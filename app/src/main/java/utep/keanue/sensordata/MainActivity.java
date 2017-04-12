@@ -148,23 +148,32 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         instructionsText.setTypeface(firaBook);
 
         //Extra Texts
-        instructionsText.setText("Enter update Interval:");
-        TextView textGps = (TextView) findViewById(R.id.text_gps);
-        textGps.setTypeface(firaMedium);
+        instructionsText.setText("Enter number of readings per second:");
+        TextView textGpsTitle = (TextView) findViewById(R.id.text_gps);
+        TextView textAccelTitle = (TextView) findViewById(R.id.text_accelerometer);
+        TextView textIntervalTitle = (TextView) findViewById(R.id.text_interval);
+
+
+
+        textGpsTitle.setTypeface(firaMedium);
+        textAccelTitle.setTypeface(firaMedium);
+        textIntervalTitle.setTypeface(firaMedium);
 
         //Assign GPS Location
         longText = (TextView) findViewById(R.id.long_text);
         latText = (TextView) findViewById(R.id.lat_text);
         altText = (TextView) findViewById(R.id.alt_text);
         //Set Font
-        longText.setTypeface(firaThin);
+        longText.setTypeface(firaBook);
         latText.setTypeface(firaBook);
-        altText.setTypeface(firaMedium);
+        altText.setTypeface(firaBook);
 
         /* Edit Text */
         myEditText = (EditText) findViewById(R.id.number_opt);
         //Change the color of the line alone
        // myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.utepOrange), PorterDuff.Mode.SRC_ATOP);
+
+        myEditText.getBackground().mutate().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         myEditText.setText(""); //Set to empty
         myEditText.clearFocus();
         myEditText.setOnKeyListener(new View.OnKeyListener() {

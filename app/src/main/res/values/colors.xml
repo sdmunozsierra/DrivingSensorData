@@ -21,8 +21,13 @@
     <color name="backgroundBlue">#3c91e6</color>
     <color name="whity">#FCFCFC</color>
 
-    <color name="statusBar">#48519E</color>
+    <color name="statusBar">#000000</color>
 
-
+    <!-- Material Black -->
+    <color name="material_black">#000000</color>
+    <color name="material_dividers">#525252</color>
+    <color name="material_disabled">#454545</color>
+    <color name="material_secundary">#2b2b2b</color>
+    <color name="material_primary">#0c0c0c</color>
 
 </resources>
