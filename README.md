@@ -5,16 +5,16 @@ In this proposal, we aim at collecting smart phones’ sensors data from drivers
 
 ### Application Features
 The application is packed with the following:
-* Smartphone's GPS Location Services: Obtain latitude, longitude, and altitude values.
-* Accelerometer and Gyroscope Sensors: Collect X, Y, and Z positions in a 3D plane.
-* Interval setting: Choose how many times _per second_ record data values.
-* Save records to file.
-* Read records: Display the records from file.
-* Delete records: Erase the records from file.
+* __Smartphone's GPS Location Services:__ Obtain latitude, longitude, and altitude values.
+* __Accelerometer and Gyroscope Sensors:__ Collect X, Y, and Z positions in a 3D plane.
+* __Interval setting:__ Choose how many times _per second_ record data values.
+* __Save records__ to file.
+* __Read records:__ Display the records from file.
+* __Delete records:__ Erase the records from file.
 
 ### UI/UX Features
 The applicatino is focused on a friendly user interface for easy experience out of the box.
-* Inspired on a dark theme [Material Design](https://material.io/guidelines/#introduction-principles) by Google.
+* Inspired on [Material Design](https://material.io/guidelines/#introduction-principles) by Google.
 * Uses a fancy [Bottom bar](https://github.com/roughike/BottomBar) to perform the actions.
 
 ## Dependencies and Permissions
@@ -22,6 +22,7 @@ The applicatino is focused on a friendly user interface for easy experience out 
 __Permissions__
 * Access Fine Location (GPS Location)
 * Write External Storage (File Management)
+
 __Dependencies__
 * Google Play Services (See Notes)
 * [Bottom bar](https://github.com/roughike/BottomBar)
